@@ -46,7 +46,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
     >
       {Icon && <Icon size={20} color={isFilled ? '#F4972E' : ''} />}
       <input
-        className='flex-1 w-full h-full p-y-2 p-x-4 md:p-4 text-white font-semibold bg-transparent border-none focus:outline-none'
+        className='flex-1 w-full h-full py-2 px-4 md:p-4 text-white font-semibold bg-transparent border-none focus:outline-none'
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
