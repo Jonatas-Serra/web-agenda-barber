@@ -38,9 +38,11 @@ export function Login() {
                 <Input name="email" type="email" icon={FiMail} placeholder="E-mail" />
                 <Input name="password" icon={FiLock} type="password" placeholder="Senha" />
 
-                <button className="flex justify-center items-center w-full min-w-[250px] h-12 p-4 my-2 text-white-100 font-bold text-lg bg-orange-500 rounded-md shadow-sm ">
-                  Login
-                </button>
+                <Link to="/Dash">
+                  <button className="flex justify-center items-center w-full min-w-[250px] h-12 p-4 my-2 text-white-100 font-bold text-lg bg-orange-500 rounded-md shadow-sm ">
+                    Login
+                  </button>
+                </Link>
               </div>
             </Form>
             <div className="flex justify-center items-center py-6">
