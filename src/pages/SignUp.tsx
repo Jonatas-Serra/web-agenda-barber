@@ -9,6 +9,7 @@ import api from '../services/api';
 
 import getValidationErrors from '../utils/getValidationErrors';
 import Input from '../components/Input';
+import { Logo } from '../components/Logo';
 
 interface SignUpFormData {
   name: string;
@@ -16,7 +17,7 @@ interface SignUpFormData {
   password: string;
 }
 
-export function SignIn() {
+export function SignUp() {
   const formRef = useRef<FormHandles>(null);
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ export function SignIn() {
           abortEarly: false,
         });
 
-        await api.post('/barbers', data);
+        await api.post('/barbers/signup', data);
 
         navigate('/Login');
 
@@ -46,7 +47,7 @@ export function SignIn() {
           const errors = getValidationErrors(err);
 
           formRef.current?.setErrors(errors);
-          console.log(errors);
+
           return;
         }
       }
@@ -59,13 +60,16 @@ export function SignIn() {
       <div className="flex flex-row ">
         <div className="flex-col w-[100%] max-w-[600px] sm:basis-2/4 md:basis-1/4 bg-gray-100">
           <div className="justify-center items-center">
-            <div className="flex justify-center items-center py-6">
-              <strong className="text-2xl md:text-4xl text-orange-500 text-center">Cadastre-se</strong>
+            <div className="flex flex-col justify-center items-center py-6">
+              <Link to="/">
+                <Logo />
+              </Link>
+              <strong className="mt-8 text-2xl md:text-4xl text-orange-500 text-center">Cadastre-se</strong>
             </div>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} ref={formRef}>
               <div className="flex flex-col justify-center items-center gap-2 p-8 w-full">
                 <Input name="name" type="name" icon={FiUser} placeholder="Nome" />
-                <Input name="email" type="email" icon={FiMail} placeholder="E-mail" />
+                <Input name="email" icon={FiMail} placeholder="E-mail" />
                 <Input name="password" icon={FiLock} type="password" placeholder="Senha" />
 
                 <button className="flex justify-center items-center w-full min-w-[250px] h-12 p-4 my-2 text-white-100 font-bold text-lg bg-orange-500 rounded-md shadow-sm ">
@@ -83,7 +87,7 @@ export function SignIn() {
             </div>
           </div>
         </div>
-        <div className="flex w-[0] sm:basis-3/4 bg-hero bg-cover bg-no-repeat min-h-screen"/>
+        <div className="flex w-[0] sm:basis-3/4 bg-hero2 bg-cover bg-no-repeat min-h-screen"/>
       </div>
     </main>
   );

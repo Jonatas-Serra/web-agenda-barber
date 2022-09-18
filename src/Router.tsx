@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Launch } from "./pages/Launch";
 import { Login } from "./pages/Login";
-import { SignIn } from "./pages/SignIn";
+import { SignUp } from "./pages/SignUp";
 import { Dashboard } from "./pages/Dash";
 import { Resume } from "./components/Resume";
 import { Appointments } from "./components/Apointments";
@@ -16,7 +16,7 @@ export function Router() {
       <Routes>
           <Route path="/" element={<Launch />}/>
           <Route path="/Login/*" element={<Login />}/>
-          <Route path="/SignIn/*" element={<SignIn />}/>
+          <Route path="/SignUp/*" element={<SignUp />}/>
           <Route path="/Dash/" element={<Dashboard />}>
             <Route path="resume" element={<Resume />} />
             <Route path="appointments" element={<Appointments />} />

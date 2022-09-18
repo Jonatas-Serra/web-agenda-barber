@@ -32,7 +32,7 @@ export function Resume() {
             <TableAppointment />
           </div>
         </div>
-        <div className="col-span-4 mx-4 mt-6">
+        <div className="col-span-4 mx-4 mt-2">
           <CalendarPicker />
         </div>
       </div>

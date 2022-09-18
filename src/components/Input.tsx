@@ -8,6 +8,7 @@ import React, {
 import { IconBaseProps } from 'react-icons';
 import { FiAlertCircle } from 'react-icons/fi';
 import { useField } from '@unform/core';
+import Tooltip from './Tooltips';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -40,11 +41,12 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
 
   return (
     <div
+      isErrored={!!error}
       className={`flex justify-center items-center w-full min-w-[250px] h-12 p-4 text-white-100 bg-zinc-700 rounded-md shadow-sm focus-within:ring-orange-500 focus-within:border-transparent ${isFocused ? 'ring-2 ring-orange-500' : ''} ${isFilled ? 'ring-2 ring-orange-500' : ''} ${error ? 'ring-2 ring-red-600' : ''}`}
     >
       {Icon && <Icon size={20} color={isFilled ? '#F4972E' : ''} />}
       <input
-        className='flex-1 w-full h-full p-2 text-white bg-transparent border-none focus:outline-none'
+        className='flex-1 w-full h-full p-2 text-white font-semibold bg-transparent border-none focus:outline-none'
         onFocus={handleInputFocus}
         onBlur={handleInputBlur}
         defaultValue={defaultValue}
@@ -52,9 +54,11 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
         {...rest}
       />
       {error && (
-        <div className='h-[20px] ml-4'>
-          <FiAlertCircle color="#c53030" size={20} />
-        </div>
+        <Tooltip title={error} >
+          <div className="tooltip-arrow">
+            <FiAlertCircle data-popper-arrow color="#c53030" size={20} />
+          </div>
+        </Tooltip>
       )}
     </div>
   );
