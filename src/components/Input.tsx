@@ -42,7 +42,7 @@ const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
   return (
     <div
       isErrored={!!error}
-      className={`text-base flex justify-center items-center w-full min-w-[250px] h-14 p2 md:p-4 text-white-100 bg-zinc-700 rounded-md focus-within:ring-orange-500 ${isFocused ? 'ring-2 ring-orange-500' : ''} ${isFilled ? 'ring-2 ring-orange-500' : ''} ${error ? 'ring-2 ring-red-600' : ''}`}
+      className={`text-base flex justify-center items-center w-full min-w-[250px] h-14 p-y-2 p-x-4 md:p-4 text-white-100 bg-zinc-700 rounded-md focus-within:ring-orange-500 ${isFocused ? 'ring-2 ring-orange-500' : ''} ${isFilled ? 'ring-2 ring-orange-500' : ''} ${error ? 'ring-2 ring-red-600' : ''}`}
     >
       {Icon && <Icon size={20} color={isFilled ? '#F4972E' : ''} />}
       <input
