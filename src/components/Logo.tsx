@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export function Logo() {
   return (
@@ -15,5 +15,5 @@ export function Logo() {
         transform="matrix(.1 0 0 -.1 0 478)"
       ></path>
     </svg>
-  );
+  )
 }
