@@ -1,14 +1,74 @@
-import { GoogleLogo } from 'phosphor-react'
-import { FiMail, FiLock, FiLogIn } from 'react-icons/fi'
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import React, { useCallback, useRef } from 'react'
+import { FormHandles } from '@unform/core'
 import { Form } from '@unform/web'
-import { Link } from 'react-router-dom'
+import * as Yup from 'yup'
+import { FiMail, FiLock, FiLogIn } from 'react-icons/fi'
+
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../hooks/Auth'
+import { useToast } from '../hooks/Toast'
+
+import getValidationErrors from '../utils/getValidationErrors'
+
+import { GoogleLogo } from 'phosphor-react'
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '../services/firebase'
 
 import Input from '../components/Input'
 import { Logo } from '../components/Logo'
 
-export function Login() {
+interface SignInFormData {
+  email: string
+  password: string
+}
+
+const Login: React.FC = () => {
+  const formRef = useRef<FormHandles>(null)
+  const navigate = useNavigate()
+
+  const { signIn } = useAuth()
+  const { addToast } = useToast()
+
+  const handleSubmit = useCallback(
+    async (data: SignInFormData) => {
+      try {
+        formRef.current?.setErrors({})
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        })
+
+        await schema.validate(data, {
+          abortEarly: false,
+        })
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        })
+
+        navigate('/dash')
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err)
+
+          formRef.current?.setErrors(errors)
+
+          return
+        }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+        })
+      }
+    },
+    [addToast, navigate, signIn],
+  )
+
   function handleGloogleSingIn() {
     const provider = new GoogleAuthProvider()
 
@@ -35,7 +95,7 @@ export function Login() {
                 Login
               </strong>
             </div>
-            <Form onSubmit={() => {}}>
+            <Form ref={formRef} onSubmit={handleSubmit}>
               <div className="flex flex-col justify-center items-center gap-2 p-8 w-full">
                 <Input
                   name="email"
@@ -89,3 +149,5 @@ export function Login() {
     </main>
   )
 }
+
+export default Login

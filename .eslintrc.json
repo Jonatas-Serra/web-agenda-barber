@@ -3,7 +3,9 @@
     "browser": true,
     "es2021": true
   },
-  "extends": "@rocketseat/eslint-config/react",
+  "extends":[
+    "@rocketseat/eslint-config/react",
+    "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {

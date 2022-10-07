@@ -2,8 +2,10 @@ import React from 'react'
 
 import { Logo } from './Logo'
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../hooks/Auth'
 
 export function NavSide() {
+  const { signOut } = useAuth()
   const [bg, setBg] = React.useState('/Dash/resume')
 
   const usePathname = () => {
@@ -230,7 +232,10 @@ export function NavSide() {
           </ul>
           <ul>
             <li>
-              <a className="flex items-center p-4 text-base font-normal text-white-100 rounded-lg hover:bg-orange-500">
+              <button
+                onClick={signOut}
+                className="flex items-center p-4 text-base font-normal text-white-100 rounded-lg hover:bg-orange-500"
+              >
                 <svg
                   aria-hidden="true"
                   className="flex-shrink-0 w-6 h-6 text-white-100 transition duration-75 group-hover:text-white-100 "
@@ -247,7 +252,7 @@ export function NavSide() {
                 <span className="flex-1 ml-3 text-white-100 whitespace-nowrap">
                   Sair
                 </span>
-              </a>
+              </button>
             </li>
           </ul>
         </div>
