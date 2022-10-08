@@ -7,7 +7,12 @@ interface User {
   email: string
 }
 
-const HeaderDash: React.FC = () => {
+interface HeaderDashProps {
+  handleMenu: () => void
+  isHidden: boolean
+}
+
+const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
   const [Title, setTitle] = React.useState('Resume')
   const [IsOpen, setIsOpen] = React.useState(false)
   const { user } = useAuth() as { user: User }
@@ -50,6 +55,30 @@ const HeaderDash: React.FC = () => {
         <h3 className="hidden sm:flex font-bold text-2xl text-center">
           {Title}
         </h3>
+        <button
+          onClick={() => {
+            handleMenu()
+          }}
+          type="button"
+          className={`${
+            isHidden ? 'hidden' : ''
+          } inline-flex items-center justify-center p-2 text-sm text-zinc-50 rounded-lg sm:hidden hover:bg-orange-500`}
+        >
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-6 h-6"
+            aria-hidden="true"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </button>
         <div className={`relative ${IsOpen ? 'top-11' : ''}`}>
           <button
             onClick={() => setIsOpen(!IsOpen)}
@@ -78,10 +107,9 @@ const HeaderDash: React.FC = () => {
             </svg>
           </button>
           <div
-            id="dropdownAvatarName"
             className={`${
               IsOpen ? '' : 'hidden'
-            } relative top-2 left-11 z-10 w-44  rounded-lg divide-y  shadow bg-zinc-900 divide-gray-800`}
+            } relative top-2 left-11 z-10 w-44 divide-y  shadow bg-zinc-900 divide-gray-800`}
           >
             <ul className="py-1 text-sm text-zinc-50">
               <li>

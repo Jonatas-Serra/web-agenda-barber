@@ -4,7 +4,11 @@ import { Logo } from './Logo'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/Auth'
 
-export function NavSide() {
+interface NavSideProps {
+  handleMenu: () => void
+}
+
+const NavSide: React.FC<NavSideProps> = ({ handleMenu }) => {
   const { signOut } = useAuth()
   const [bg, setBg] = React.useState('/Dash/resume')
 
@@ -18,24 +22,51 @@ export function NavSide() {
   }
 
   return (
-    <aside className="hidden md:flex w-64">
+    <aside className="w-64">
       <div className="h-screen flex flex-col py-4 px-3 bg-zinc-900">
-        <div className="flex items-center py-4 justify-center mb-12">
-          <Logo />
+        <div className="flex items-center py-4 justify-center sm:mb-12">
+          <div className="hidden sm:flex">
+            <Logo />
+          </div>
+          <div className="flex sm:hidden">
+            <button
+              onClick={() => {
+                handleMenu()
+              }}
+              type="button"
+              className="text-zinc-50 bg-transparent rounded-lg p-1.5 ml-auto inline-flex items-center hover:bg-red-600"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
         </div>
         <div className="h-full flex flex-col justify-around">
           <ul className="space-y-2">
             <li>
               <Link
                 id="resume"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/resume"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/resume' ? 'bg-orange-500' : ''
                 }`}
               >
                 <svg
-                  aria-hidden="true"
                   className="w-6 h-6 text-white-100 transition duration-75 dark:text-white-100 group-hover:text-white-100 dark:group-hover:text-white"
                   fill="none"
                   stroke="currentColor"
@@ -49,13 +80,16 @@ export function NavSide() {
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   />
                 </svg>
-                <span className="ml-3">Resumo</span>
+                <span className="sm:flex ml-3">Resumo</span>
               </Link>
             </li>
             <li>
               <Link
                 id="appointments"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/appointments"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/appointments' ? 'bg-orange-500' : ''
@@ -76,16 +110,21 @@ export function NavSide() {
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Agenda</span>
-                <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-white-100 bg-zinc-700 rounded-full">
-                  3
-                </span>
+                <div className="sm:flex ml-3 w-full justify-between">
+                  <span className="flex-1 ml-3 whitespace-nowrap">Agenda</span>
+                  <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-white-100 bg-zinc-700 rounded-full">
+                    3
+                  </span>
+                </div>
               </Link>
             </li>
             <li>
               <Link
                 id="stylist"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/stylist"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/stylist' ? 'bg-orange-500' : ''
@@ -104,18 +143,23 @@ export function NavSide() {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Profissionais
-                </span>
-                <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium  text-white-100 bg-zinc-700 rounded-full">
-                  Pro
-                </span>
+                <div className="sm:flex ml-3">
+                  <span className="flex-1 ml-3 whitespace-nowrap">
+                    Profissionais
+                  </span>
+                  <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium  text-white-100 bg-zinc-700 rounded-full">
+                    Pro
+                  </span>
+                </div>
               </Link>
             </li>
             <li>
               <Link
                 id="services"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/services"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/services' ? 'bg-orange-500' : ''
@@ -136,13 +180,16 @@ export function NavSide() {
                     d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Serviços</span>
+                <span className="sm:flex ml-3">Serviços</span>
               </Link>
             </li>
             <li>
               <Link
                 id="products"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/products"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/products' ? 'bg-orange-500' : ''
@@ -161,13 +208,16 @@ export function NavSide() {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Produtos</span>
+                <span className="sm:flex ml-3">Produtos</span>
               </Link>
             </li>
             <li>
               <Link
                 id="finance"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/finance"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/finance' ? 'bg-orange-500' : ''
@@ -188,16 +238,23 @@ export function NavSide() {
                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">Finanças</span>
-                <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium  text-white-100 bg-zinc-700 rounded-full">
-                  Pro
-                </span>
+                <div className="sm:flex ml-3">
+                  <span className="flex-1 ml-3 whitespace-nowrap">
+                    Finanças
+                  </span>
+                  <span className="inline-flex justify-center items-center px-2 ml-3 text-sm font-medium  text-white-100 bg-zinc-700 rounded-full">
+                    Pro
+                  </span>
+                </div>
               </Link>
             </li>
             <li>
               <Link
                 id="settings"
-                onClick={handleSelect}
+                onClick={() => {
+                  handleSelect()
+                  handleMenu()
+                }}
                 to="/Dash/settings"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
                   bg === '/Dash/settings' ? 'bg-orange-500' : ''
@@ -224,9 +281,7 @@ export function NavSide() {
                     d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Configurações
-                </span>
+                <span className="sm:flex ml-3">Configurações</span>
               </Link>
             </li>
           </ul>
@@ -249,7 +304,7 @@ export function NavSide() {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span className="ml-3 text-white-100 ">Sair</span>
+                <span className="sm:flex ml-3">Sair</span>
               </button>
             </li>
           </ul>
@@ -258,3 +313,5 @@ export function NavSide() {
     </aside>
   )
 }
+
+export default NavSide

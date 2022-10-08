@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { Launch } from '../pages/Launch'
 import Login from '../pages/Login'
 import { SignUp } from '../pages/SignUp'
-import { Dashboard } from '../pages/Dash'
+import Dash from '../pages/Dash'
 import { Resume } from '../components/Resume'
 import { Appointments } from '../components/Apointments'
 import { Stylist } from '../components/Stylist'
@@ -36,7 +36,7 @@ export function Router() {
         path="/Dash/"
         element={
           <ProtectedRoute isPrivate>
-            <Dashboard />
+            <Dash />
           </ProtectedRoute>
         }
       >
