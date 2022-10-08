@@ -5,7 +5,7 @@ import { SignUp } from '../pages/SignUp'
 import { Dashboard } from '../pages/Dash'
 import { Resume } from '../components/Resume'
 import { Appointments } from '../components/Apointments'
-import { Professions } from '../components/Professions'
+import { Stylist } from '../components/Stylist'
 import { Services } from '../components/Services'
 import { Products } from '../components/Products'
 import { Finance } from '../components/Finance'
@@ -42,7 +42,7 @@ export function Router() {
       >
         <Route path="resume" element={<Resume />} />
         <Route path="appointments" element={<Appointments />} />
-        <Route path="professions" element={<Professions />} />
+        <Route path="stylist" element={<Stylist />} />
         <Route path="services" element={<Services />} />
         <Route path="products" element={<Products />} />
         <Route path="finance" element={<Finance />} />

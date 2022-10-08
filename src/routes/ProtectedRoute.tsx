@@ -19,7 +19,7 @@ const ProtectedRoute: React.FC<RouteProps> = ({
   }
 
   if (isPrivate) {
-    return <Navigate to="/" />
+    return <Navigate to="/login" />
   }
 
   return <Navigate to="/dash" />

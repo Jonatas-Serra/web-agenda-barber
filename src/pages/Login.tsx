@@ -49,7 +49,7 @@ const Login: React.FC = () => {
           password: data.password,
         })
 
-        navigate('/dash')
+        navigate('/dash/resume')
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err)

@@ -84,11 +84,11 @@ export function NavSide() {
             </li>
             <li>
               <Link
-                id="professions"
+                id="stylist"
                 onClick={handleSelect}
-                to="/Dash/professions"
+                to="/Dash/stylist"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
-                  bg === '/Dash/professions' ? 'bg-orange-500' : ''
+                  bg === '/Dash/stylist' ? 'bg-orange-500' : ''
                 }`}
               >
                 <svg
@@ -234,7 +234,7 @@ export function NavSide() {
             <li>
               <button
                 onClick={signOut}
-                className="flex items-center p-4 text-base font-normal text-white-100 rounded-lg hover:bg-orange-500"
+                className="flex w-full p-4 text-base font-normal text-white-100 rounded-lg hover:bg-orange-500"
               >
                 <svg
                   aria-hidden="true"
@@ -249,9 +249,7 @@ export function NavSide() {
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span className="flex-1 ml-3 text-white-100 whitespace-nowrap">
-                  Sair
-                </span>
+                <span className="ml-3 text-white-100 ">Sair</span>
               </button>
             </li>
           </ul>
