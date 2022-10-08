@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/Auth'
@@ -82,7 +81,7 @@ const HeaderDash: React.FC = () => {
             id="dropdownAvatarName"
             className={`${
               IsOpen ? '' : 'hidden'
-            } relative top-2 left-11 z-10 w-44  rounded-lg divide-y  shadow bg-zinc-900 divide-gray-700`}
+            } relative top-2 left-11 z-10 w-44  rounded-lg divide-y  shadow bg-zinc-900 divide-gray-800`}
           >
             <ul className="py-1 text-sm text-zinc-50">
               <li>
