@@ -18,7 +18,7 @@ export function NavSide() {
   }
 
   return (
-    <aside className="hidden md:flex w-64" aria-label="Sidebar">
+    <aside className="hidden md:flex w-64">
       <div className="h-screen flex flex-col py-4 px-3 bg-zinc-900">
         <div className="flex items-center py-4 justify-center mb-12">
           <Logo />
