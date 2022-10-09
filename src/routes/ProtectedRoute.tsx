@@ -22,7 +22,7 @@ const ProtectedRoute: React.FC<RouteProps> = ({
     return <Navigate to="/login" />
   }
 
-  return <Navigate to="/dash" />
+  return <Navigate to="/dash/resume" />
 }
 
 export default ProtectedRoute

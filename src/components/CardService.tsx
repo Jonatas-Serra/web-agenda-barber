@@ -34,7 +34,7 @@ const CardService: React.FC<CardServiceProps> = ({
       </div>
       <div className="px-5 pb-5">
         <Link to={`/${_id}`}>
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 mb-4">
+          <h5 className="text-2xl text-center font-extrabold tracking-tight text-gray-900 mb-4">
             {name}
           </h5>
         </Link>

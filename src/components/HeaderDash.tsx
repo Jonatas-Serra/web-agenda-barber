@@ -109,23 +109,23 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
           <div
             className={`${
               IsOpen ? '' : 'hidden'
-            } relative top-2 left-11 z-10 w-44 divide-y  shadow bg-zinc-900 divide-gray-800`}
+            } relative top-2 left-11 z-10 w-44 divide-y rounded-xl  shadow bg-zinc-900 divide-gray-800`}
           >
-            <ul className="py-1 text-sm text-zinc-50">
-              <li>
+            <ul className="w-full h-full text-sm text-zinc-50">
+              <li className="hover:bg-zinc-700 rounded-xl">
                 <Link
                   to={'settings'}
                   onClick={() => setIsOpen(false)}
-                  className="text-center w-full block py-2 px-4 hover:bg-zinc-700 hover:text-orange-500"
+                  className="text-center w-full block py-2 px-4  hover:text-orange-500"
                 >
                   Configurações
                 </Link>
               </li>
             </ul>
-            <div className="py-1">
+            <div className="py-1 rounded-xl outline-2 hover:bg-zinc-700 ">
               <button
                 onClick={signOut}
-                className="w-full block py-2 px-4 text-sm text-zinc-50 hover:bg-zinc-700 hover:text-orange-500"
+                className="w-full block py-2 px-4 text-sm text-zinc-50  hover:text-orange-500"
               >
                 Sair
               </button>

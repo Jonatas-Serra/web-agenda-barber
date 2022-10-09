@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import HeaderDash from '../components/HeaderDash'
 import NavSide from '../components/NavSide'
 
 const Dash: React.FC = () => {
-  const [isOpenMenu, setIsOpenMenu] = React.useState(false)
-  const [isHidden, setIsHidden] = React.useState(false)
+  const [isOpenMenu, setIsOpenMenu] = useState(false)
+  const [isHidden, setIsHidden] = useState(false)
 
   const handleMenu = () => {
     setIsOpenMenu(!isOpenMenu)
