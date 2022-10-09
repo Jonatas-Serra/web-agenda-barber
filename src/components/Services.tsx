@@ -25,12 +25,12 @@ interface Service {
 export function Services() {
   const [loading, setLoading] = useState(true)
   const [services, setServices] = useState<Service>([] as unknown as Service)
+  const [selectedService, setSelectedService] = useState<Service>({} as Service)
   const [currentPage, setCurrentPage] = useState(1)
   const [servicesPerPage, setServicesPerPage] = useState(2)
   const [width, setWidth] = useState(window.innerWidth)
   const token = localStorage.getItem('@AgendaBarber:token')
 
-  const [selectedService, setSelectedService] = useState<Service>({} as Service)
   const [modalIsOpenDelete, setModalIsOpenDelete] = useState(false)
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)

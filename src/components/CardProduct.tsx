@@ -1,32 +1,29 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-interface CardServiceProps {
+interface CardProductProps {
   _id: string
-  name: string
-  description: string
-  duration: number
-  price: number
-  recurrence: number
   image: string
+  name: string
+  price: number
   handlemodalIsOpenDelete: (id: string) => void
-  handleSelectService: (service: CardServiceProps) => void
+  handleSelectProduct: (product: CardProductProps) => void
 }
 
-const CardService: React.FC<CardServiceProps> = ({
+const CardProduct: React.FC<CardProductProps> = ({
   _id,
   image,
   name,
   price,
   handlemodalIsOpenDelete,
-  handleSelectService,
+  handleSelectProduct,
 }) => {
   return (
     <div className="w-full sm:max-w-[250px] lg:max-w-[250px] bg-white-100 rounded-lg shadow-md mr-6 mb-6">
       <div className="flex justify-center items-center w-full mx-auto">
         <a>
           <img
-            className="p-2 rounded-[15px] max-h-48"
+            className="p-2 rounded-[15px] max-h-56"
             alt="imagem do serviço"
             src={image}
           />
@@ -55,16 +52,13 @@ const CardService: React.FC<CardServiceProps> = ({
             <button
               onClick={() => {
                 handlemodalIsOpenDelete(_id)
-                handleSelectService({
+                handleSelectProduct({
                   _id,
                   image,
                   name,
                   price,
                   handlemodalIsOpenDelete,
-                  handleSelectService,
-                  description: '',
-                  duration: 0,
-                  recurrence: 0,
+                  handleSelectProduct,
                 })
               }}
               className="text-white-100 bg-red-600 font-bold rounded-lg text-md px-4 py-2.5 text-center ml-2"
@@ -78,4 +72,4 @@ const CardService: React.FC<CardServiceProps> = ({
   )
 }
 
-export default CardService
+export default CardProduct
