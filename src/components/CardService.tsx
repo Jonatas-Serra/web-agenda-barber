@@ -1,21 +1,38 @@
 import React from 'react'
 
 interface CardServiceProps {
-  title: string
+  _id: string
+  name: string
+  description: string
+  duration: number
   price: number
-  img: string
+  recurrence: number
+  image: string
+  handlemodalIsOpenDelete: (id: string) => void
+  handleSelectService: (service: CardServiceProps) => void
 }
 
-const CardService: React.FC<CardServiceProps> = ({ img, title, price }) => {
+const CardService: React.FC<CardServiceProps> = ({
+  _id,
+  image,
+  name,
+  price,
+  handlemodalIsOpenDelete,
+  handleSelectService,
+}) => {
   return (
     <div className="w-full sm:max-w-[250px] lg:max-w-[250px] bg-white-100 rounded-lg shadow-md mr-6 mb-6">
       <a>
-        <img className="p-2 rounded-[15px]" alt="imagem do serviço" src={img} />
+        <img
+          className="p-2 rounded-[15px]"
+          alt="imagem do serviço"
+          src={image}
+        />
       </a>
       <div className="px-5 pb-5">
         <a href="#">
           <h5 className="text-xl font-semibold tracking-tight text-gray-900 mb-4">
-            {title}
+            {name}
           </h5>
         </a>
 
@@ -30,12 +47,25 @@ const CardService: React.FC<CardServiceProps> = ({ img, title, price }) => {
             >
               Editar
             </a>
-            <a
-              href="#"
+            <button
+              onClick={() => {
+                handlemodalIsOpenDelete(_id)
+                handleSelectService({
+                  _id,
+                  image,
+                  name,
+                  price,
+                  handlemodalIsOpenDelete,
+                  handleSelectService,
+                  description: '',
+                  duration: 0,
+                  recurrence: 0,
+                })
+              }}
               className="text-white-100 bg-red-600 font-bold rounded-lg text-md px-4 py-2.5 text-center ml-2"
             >
               Deletar
-            </a>
+            </button>
           </div>
         </div>
       </div>
