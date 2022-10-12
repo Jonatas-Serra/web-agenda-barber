@@ -61,6 +61,7 @@ const Login: React.FC = () => {
       JSON.stringify({ email, name: displayName, image: photoURL, id: uid }),
     )
     navigate('/dash/resume')
+    window.location.reload()
   }, [navigate])
 
   const handleSubmit = useCallback(
