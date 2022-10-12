@@ -58,7 +58,7 @@ const Login: React.FC = () => {
     )
     localStorage.setItem(
       '@AgendaBarber:user',
-      JSON.stringify({ email, name: displayName, image: photoURL, id: uid }),
+      JSON.stringify({ email, name: displayName, image: photoURL, _id: uid }),
     )
     navigate('/dash/resume')
     window.location.reload()
