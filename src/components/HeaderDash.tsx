@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/Auth'
 interface User {
   name: string
   email: string
+  image: string
 }
 
 interface HeaderDashProps {
@@ -89,7 +90,7 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
           >
             <img
               className="mr-2 w-12 h-12 rounded-full"
-              src="https://img.freepik.com/premium-vector/vintage-barbershop-logo-template_441059-26.jpg?w=2000"
+              src={user?.image}
               alt="user photo"
             ></img>
             {user?.name}
