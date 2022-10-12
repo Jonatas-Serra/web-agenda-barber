@@ -63,7 +63,7 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
           type="button"
           className={`${
             isHidden ? 'hidden' : ''
-          } inline-flex items-center justify-center p-2 text-sm text-zinc-50 rounded-lg sm:hidden hover:bg-orange-500`}
+          } inline-flex items-center justify-center p-2 text-sm text-zinc-50 rounded-lg sm:hidden hover:bg-orange-500 mr-3`}
         >
           <span className="sr-only">Open main menu</span>
           <svg
