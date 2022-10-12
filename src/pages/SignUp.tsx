@@ -7,6 +7,8 @@ import { Link, useNavigate } from 'react-router-dom'
 
 import api from '../services/api'
 
+import { useToast } from '../hooks/Toast'
+
 import getValidationErrors from '../utils/getValidationErrors'
 import Input from '../components/Input'
 import { Logo } from '../components/Logo'
@@ -20,6 +22,7 @@ interface SignUpFormData {
 export function SignUp() {
   const formRef = useRef<FormHandles>(null)
   const navigate = useNavigate()
+  const { addToast } = useToast()
 
   const handleSubmit = useCallback(
     async (data: SignUpFormData) => {
@@ -47,6 +50,12 @@ export function SignUp() {
 
           formRef.current?.setErrors(errors)
         }
+
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
+        })
       }
     },
     [navigate],
