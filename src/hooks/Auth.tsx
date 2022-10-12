@@ -30,12 +30,11 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
 const AuthProvider: React.FC<Props> = ({ children }) => {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem(
-      '@AgendaBarber:token' || '@AgendaBarber:tokenGoogle',
-    )
+    const token = localStorage.getItem('@AgendaBarber:token')
     const user = localStorage.getItem('@AgendaBarber:user')
+    const tokenGoogle = localStorage.getItem('@AgendaBarber:tokenGoogle')
 
-    if (token && user) {
+    if (token || (tokenGoogle && user)) {
       return { token, user: JSON.parse(user) }
     }
 
