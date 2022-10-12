@@ -35,9 +35,6 @@ const Login: React.FC = () => {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
 
-    console.log(result)
-    console.log(result.user)
-
     if (result.user) {
       localStorage.setItem('@AgendaBarber:tokenGoogle', result.user.uid)
       localStorage.setItem('@AgendaBarber:user', JSON.stringify(result.user))
