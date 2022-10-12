@@ -22,6 +22,19 @@ interface SignInFormData {
   password: string
 }
 
+interface userGoogle {
+  accessToken: string
+  displayName: string
+  email: string
+  photoURL: string
+  stsTokenManager: {
+    accessToken: string
+    apiKey: string
+    expirationTime: number
+    refreshToken: string
+  }
+}
+
 const Login: React.FC = () => {
   const formRef = useRef<FormHandles>(null)
   const navigate = useNavigate()
@@ -34,15 +47,19 @@ const Login: React.FC = () => {
   const handleGoogleLogin = useCallback(async () => {
     const provider = new GoogleAuthProvider()
     const result = await signInWithPopup(auth, provider)
+    const usergoogle = result.user as unknown as userGoogle
 
-    if (result.user) {
-      localStorage.setItem('@AgendaBarber:tokenGoogle', result.user.uid)
-      localStorage.setItem('@AgendaBarber:user', JSON.stringify(result.user))
+    const { email, displayName, photoURL } = usergoogle
 
-      console.log(result.user)
-
-      navigate('/dash/resume')
-    }
+    localStorage.setItem(
+      '@AgendaBarber:tokenGoogle',
+      usergoogle.stsTokenManager.accessToken,
+    )
+    localStorage.setItem(
+      '@AgendaBarber:user',
+      JSON.stringify({ email, name: displayName, image: photoURL }),
+    )
+    navigate('/dash/resume')
   }, [navigate])
 
   const handleSubmit = useCallback(
