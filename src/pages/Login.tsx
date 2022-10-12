@@ -37,6 +37,9 @@ const Login: React.FC = () => {
 
     console.log(result)
     if (result.user) {
+      localStorage.setItem('@AgendaBarber:token', result.user.uid)
+      localStorage.setItem('@AgendaBarber:user', JSON.stringify(result.user))
+
       navigate('/dash/resume')
     }
   }, [navigate])
