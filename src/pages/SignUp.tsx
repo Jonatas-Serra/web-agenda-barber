@@ -43,6 +43,12 @@ export function SignUp() {
 
         await api.post('/barbers/signup', data)
 
+        addToast({
+          type: 'success',
+          title: 'Cadastro realizado!',
+          description: 'Você já pode fazer seu logon no GoBarber!',
+        })
+
         navigate('/Login')
       } catch (err: any) {
         if (err instanceof Yup.ValidationError) {
@@ -50,6 +56,7 @@ export function SignUp() {
 
           formRef.current?.setErrors(errors)
         }
+        console.log(err)
 
         addToast({
           type: 'error',
