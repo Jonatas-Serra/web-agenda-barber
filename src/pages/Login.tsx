@@ -36,8 +36,10 @@ const Login: React.FC = () => {
     const result = await signInWithPopup(auth, provider)
 
     console.log(result)
+    console.log(result.user)
+
     if (result.user) {
-      localStorage.setItem('@AgendaBarber:token', result.user.uid)
+      localStorage.setItem('@AgendaBarber:tokenGoogle', result.user.uid)
       localStorage.setItem('@AgendaBarber:user', JSON.stringify(result.user))
 
       console.log(result.user)
