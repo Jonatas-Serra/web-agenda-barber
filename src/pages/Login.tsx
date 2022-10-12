@@ -29,6 +29,18 @@ const Login: React.FC = () => {
   const { signIn } = useAuth()
   const { addToast } = useToast()
 
+  // Login with Google
+
+  const handleGoogleLogin = useCallback(async () => {
+    const provider = new GoogleAuthProvider()
+    const result = await signInWithPopup(auth, provider)
+
+    console.log(result)
+    if (result.user) {
+      navigate('/dash/resume')
+    }
+  }, [navigate])
+
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
       try {
@@ -68,18 +80,6 @@ const Login: React.FC = () => {
     },
     [addToast, navigate, signIn],
   )
-
-  function handleGloogleSingIn() {
-    const provider = new GoogleAuthProvider()
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
 
   return (
     <main className="mx-auto">
@@ -124,7 +124,7 @@ const Login: React.FC = () => {
               <div>
                 <button
                   className="text-center text-base font-extrabold bg-orange-500 p-2 rounded-lg mx-auto mr-1"
-                  onClick={handleGloogleSingIn}
+                  onClick={handleGoogleLogin}
                 >
                   <GoogleLogo size={30} />
                 </button>
