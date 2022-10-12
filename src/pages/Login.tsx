@@ -23,6 +23,7 @@ interface SignInFormData {
 }
 
 interface userGoogle {
+  uid: string
   accessToken: string
   displayName: string
   email: string
@@ -49,7 +50,7 @@ const Login: React.FC = () => {
     const result = await signInWithPopup(auth, provider)
     const usergoogle = result.user as unknown as userGoogle
 
-    const { email, displayName, photoURL } = usergoogle
+    const { uid, email, displayName, photoURL } = usergoogle
 
     localStorage.setItem(
       '@AgendaBarber:tokenGoogle',
@@ -57,7 +58,7 @@ const Login: React.FC = () => {
     )
     localStorage.setItem(
       '@AgendaBarber:user',
-      JSON.stringify({ email, name: displayName, image: photoURL }),
+      JSON.stringify({ email, name: displayName, image: photoURL, id: uid }),
     )
     navigate('/dash/resume')
   }, [navigate])
