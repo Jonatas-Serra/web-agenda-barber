@@ -14,7 +14,7 @@ interface HeaderDashProps {
 }
 
 const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
-  const [Title, setTitle] = React.useState('Resume')
+  const [Title, setTitle] = React.useState('Resumo')
   const [IsOpen, setIsOpen] = React.useState(false)
   const { user } = useAuth() as { user: User }
   const { signOut } = useAuth()
@@ -24,7 +24,7 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
   useEffect(() => {
     switch (location.pathname) {
       case '/Dash/resume':
-        setTitle('Resume')
+        setTitle('Resumo')
         break
       case '/Dash/appointments':
         setTitle('Agenda')
