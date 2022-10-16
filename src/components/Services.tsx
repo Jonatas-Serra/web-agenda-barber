@@ -26,7 +26,7 @@ interface Service {
 }
 
 interface User {
-  _id: string
+  id: string
 }
 
 export function Services() {
@@ -64,9 +64,27 @@ export function Services() {
 
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
+    const file = formData.get('image') as File
     const data = Object.fromEntries(formData)
 
-    await api
+    console.log(data)
+    console.log(formData)
+
+    if (file) {
+      const image = file as File
+      const dataImage = new FormData()
+      dataImage.append('file', image)
+
+      const response = await api.post('works/upload', dataImage, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      data.image = response.data.url
+    }
+
+    api
       .post('works', data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -291,7 +309,7 @@ export function Services() {
                           <input
                             type="text"
                             name="barber"
-                            value={user._id}
+                            value={user.id}
                             className="hidden"
                           />
                           <input
@@ -358,6 +376,21 @@ export function Services() {
                             className="bg-zinc-700 border border-zinc-600 text-zinc-50 font-bold text-base rounded-lg block w-full p-2.5"
                             required
                           />
+                        </div>
+                        <div className=" border-t border-zinc-700 col-span-2">
+                          <label className="block mb-2 text-sm font-medium text-zinc-50">
+                            Imagem do serviço
+                          </label>
+                          <input
+                            id="image"
+                            name="image"
+                            type="file"
+                            className="block w-full text-sm rounded-lg border cursor-pointer text-zinc-50 focus:outline-none bg-zinc-700 border-zinc-600 placeholder-zinc-50"
+                            aria-describedby="file_input_help"
+                          />
+                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
+                            JPEG, PNG ou JPG.
+                          </p>
                         </div>
                       </div>
                       <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-zinc-200 dark:border-zinc-700">
