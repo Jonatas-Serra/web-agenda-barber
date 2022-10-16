@@ -34,8 +34,8 @@ const AuthProvider: React.FC<Props> = ({ children }) => {
     const user = localStorage.getItem('@AgendaBarber:user')
     const tokenGoogle = localStorage.getItem('@AgendaBarber:tokenGoogle')
 
-    if (token || (tokenGoogle && user)) {
-      return { token, user: JSON.parse(user) }
+    if (token && (tokenGoogle || user)) {
+      return { token: tokenGoogle || token, user: JSON.parse(user) }
     }
 
     return {} as AuthState
