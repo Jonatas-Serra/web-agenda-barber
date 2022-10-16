@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'http://191.234.202.102/',
+  baseURL: 'https://apiagendabarber.brazilsouth.cloudapp.azure.com/',
 })
 
 export default api
