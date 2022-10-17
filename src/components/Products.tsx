@@ -159,7 +159,7 @@ export function Products() {
           Adicionar
         </button>
       </div>
-      <div className="flex flex-wrap w-full mt-8 justify-center">
+      <<div className="flex flex-wrap w-full mt-8 justify-center px-8 sm:px-0">
         {loading ? (
           <div className="flex flex-1 justify-center items-center">
             <svg
