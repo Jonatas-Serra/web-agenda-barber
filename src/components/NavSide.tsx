@@ -6,9 +6,10 @@ import { useAuth } from '../hooks/Auth'
 
 interface NavSideProps {
   handleMenu: () => void
+  isHidden: boolean
 }
 
-const NavSide: React.FC<NavSideProps> = ({ handleMenu }) => {
+const NavSide: React.FC<NavSideProps> = ({ handleMenu, isHidden }) => {
   const { signOut } = useAuth()
   const [bg, setBg] = React.useState('/Dash/resume')
 
@@ -26,7 +27,7 @@ const NavSide: React.FC<NavSideProps> = ({ handleMenu }) => {
   }, [usePathname])
 
   return (
-    <aside className="w-64">
+    <aside className={`${isHidden ? 'w-screen z-30' : 'w-64'}`}>
       <div className="h-screen flex flex-col py-4 px-3 bg-zinc-900">
         <div className="flex items-center py-4 justify-center sm:mb-12">
           <div className="hidden sm:flex">
