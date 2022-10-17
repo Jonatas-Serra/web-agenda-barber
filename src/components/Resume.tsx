@@ -10,7 +10,7 @@ export function Resume() {
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
-                  className="w-14 h-14 text-green-600"
+                  className="w-11 h-11 md:w-14 md:h-14 text-green-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -24,7 +24,7 @@ export function Resume() {
                   ></path>
                 </svg>
               </div>
-              <h1 className="text-2xl text-green-600 font-bold text-center">
+              <h1 className="font-bold text-center text-xs md:text-2xl text-green-600 ">
                 Confirmados
               </h1>
               <p className="text-2xl text-zinc-700 font-bold text-center">11</p>
@@ -34,7 +34,7 @@ export function Resume() {
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
-                  className="w-14 h-14 text-orange-400"
+                  className="w-11 h-11 md:w-14 md:h-14 text-orange-400"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -48,7 +48,7 @@ export function Resume() {
                   ></path>
                 </svg>
               </div>
-              <h1 className="text-2xl text-orange-400 font-bold text-center">
+              <h1 className="text-xs md:text-2xl text-orange-400 font-bold text-center">
                 Pendentes
               </h1>
               <p className="text-2xl text-zinc-700 font-bold text-center">2</p>
@@ -58,7 +58,7 @@ export function Resume() {
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
-                  className="w-14 h-14 text-red-600"
+                  className="w-11 h-11 md:w-14 md:h-14 text-red-600"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -72,7 +72,7 @@ export function Resume() {
                   ></path>
                 </svg>
               </div>
-              <h1 className="text-2xl text-red-600 font-bold text-center">
+              <h1 className="text-xs md:text-2xl text-red-600 font-bold text-center">
                 Cancelados
               </h1>
               <p className="text-2xl text-zinc-700 font-bold text-center">3</p>

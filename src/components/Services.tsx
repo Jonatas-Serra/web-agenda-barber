@@ -269,7 +269,7 @@ export function Services() {
           )}
           {modalIsOpenCreate && (
             <div className="relative h-full w-[100px] md:w-full">
-              <div className="overflow-y-auto overflow-x-hidden fixed top-[5%] md:top-[20%] md:left-[35%] z-50  w-full md:h-full">
+              <div className="overflow-y-auto overflow-x-hidden fixed top-[10%] left-[0%] md:top-[20%] md:left-[35%] z-50  w-full md:h-full">
                 <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
                   <div className="relative rounded-lg shadow bg-zinc-900">
                     <div className="flex justify-between items-center p-5 rounded-t border-b border-zinc-700">
@@ -298,7 +298,7 @@ export function Services() {
                       </button>
                     </div>
                     <form onSubmit={handleCreateService}>
-                      <div className="grid gap-6 mb-6 md:grid-cols-2 p-4">
+                      <div className="grid gap-6 mb-0 md:mb-6 md:grid-cols-2 p-4">
                         <div>
                           <label className="block mb-2 text-sm font-medium text-zinc-50">
                             Nome do serviço
@@ -390,7 +390,7 @@ export function Services() {
                           </p>
                         </div>
                       </div>
-                      <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-zinc-200 dark:border-zinc-700">
+                      <div className="flex items-center justify-end p-2 md:p-6 space-x-2 rounded-b border-t border-zinc-700">
                         <button
                           type="submit"
                           className="text-white bg-orange-400 hover:bg-orange-500 hover:transition-shadow text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
