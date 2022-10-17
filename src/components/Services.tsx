@@ -67,9 +67,6 @@ export function Services() {
     const file = formData.get('image') as File
     const data = Object.fromEntries(formData)
 
-    console.log(data)
-    console.log(formData)
-
     if (file) {
       const image = file as File
       const dataImage = new FormData()
@@ -134,7 +131,7 @@ export function Services() {
     setModalIsOpenDelete(true)
   }
 
-  // Select a service to be deleted
+  // Select a service to be deleted or edited
   const handleSelectService = (service: Service) => {
     setSelectedService(service)
   }
@@ -340,7 +337,7 @@ export function Services() {
                         </div>
                         <div className="col-span-2">
                           <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
-                            Descrição do produto
+                            Descrição do serviço
                           </label>
                           <input
                             type="text"
