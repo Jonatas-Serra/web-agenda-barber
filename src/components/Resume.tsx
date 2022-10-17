@@ -4,9 +4,9 @@ import { TableAppointment } from './TableAppointments'
 export function Resume() {
   return (
     <div className="w-full grid grid-cols-12 gap-4">
-      <div className="col-span-8 mx-4 mt-6">
+      <div className="col-span-12 lg:col-span-8 mx-4 mt-6">
         <div className="w-full grid grid-cols-12 gap-2">
-          <div className="col-span-12 lg:col-span-4">
+          <div className="col-span-4 lg:col-span-4">
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
@@ -30,7 +30,7 @@ export function Resume() {
               <p className="text-2xl text-zinc-700 font-bold text-center">11</p>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-4">
+          <div className="col-span-4 lg:col-span-4">
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
@@ -54,7 +54,7 @@ export function Resume() {
               <p className="text-2xl text-zinc-700 font-bold text-center">2</p>
             </div>
           </div>
-          <div className="col-span-12 lg:col-span-4">
+          <div className="col-span-4 lg:col-span-4">
             <div className="flex flex-col p-6 bg-white-100 rounded-lg">
               <div className="flex justify-center items-center">
                 <svg
@@ -79,12 +79,12 @@ export function Resume() {
             </div>
           </div>
         </div>
-        <div className="col-span-8 mt-4">
-          <TableAppointment />
+        <div className="col-span-4 mx-0 lg:mx-4 mt-2">
+          <CalendarPicker />
         </div>
       </div>
-      <div className="col-span-4 mx-4 mt-2">
-        <CalendarPicker />
+      <div className="px-4 mt-4">
+        <TableAppointment />
       </div>
     </div>
   )

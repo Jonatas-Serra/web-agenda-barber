@@ -23,14 +23,13 @@ export function Launch() {
         >
           <div className="flex basis-1/4 my-auto">
             <div className="flex-col animate-slideleft">
-              <h1 className="font-bold text-center text-3xl xl:text-5xl md:text-4xl mb-5 ">
-                Buscando um barbeiro?
+              <h1 className="font-bold text-center text-xl xl:text-3xl md:text-2xl mb-5 ">
+                Cansado de esperar horas na fila de espera das Barbearias?
               </h1>
               <p className="text-center text-white-100 text-sm  md:text-base xl:text-xl">
-                Para um corte de cabelo de qualidade e um atendimento impecável,
-                venha com a BarberApp. Iremos te mostrar os melhores prestadores
-                de serviços de barbearia para homens de todas as idades. Não
-                deixe de agendar um horário hoje mesmo!
+                Conheça a Agenda BarberShop, um novo jeito de ser atendido na
+                sua barbearia predileta pelo seu barbeiro favorito através de um
+                simples agendamento.
               </p>
               <div className="flex mx-auto justify-around">
                 <button className="sm:mr-5 bg-orange-500 mt-8 p-2 text-base md:mr-11 flex justify-around  md:text-xl xl:text-2xl sm:w-40 md:w-48 xl:w-52 sm:p-4 rounded-lg items-center">
@@ -63,7 +62,7 @@ export function Launch() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 leading-relaxed ">
             <div className="flex-col justify-center items-center">
               <img
-                className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] mx-auto mb-6"
+                className="w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] mx-auto mb-6"
                 src={Img01}
                 alt=""
               />
@@ -78,7 +77,7 @@ export function Launch() {
             </div>
             <div className="flex-col justify-center items-center">
               <img
-                className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] mx-auto mb-6"
+                className="w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] mx-auto mb-6"
                 src={Img02}
                 alt=""
               />
@@ -91,7 +90,7 @@ export function Launch() {
             </div>
             <div className="flex-col justify-center items-center">
               <img
-                className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] mx-auto mb-6"
+                className="w-[70px] h-[70px] sm:w-[100px] sm:h-[100px] mx-auto mb-6"
                 src={Img03}
                 alt=""
               />
