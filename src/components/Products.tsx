@@ -99,7 +99,7 @@ export function Products() {
     setLoading(true)
     setTimeout(() => {
       getProducts()
-    }, 3000)
+    }, 2000)
   }
 
   // Delete product
@@ -117,7 +117,7 @@ export function Products() {
   // Modify the number of products per page according to the screen size
   const handleResize = () => {
     setWidth(window.innerWidth)
-    if (width > 640) {
+    if (width < 640) {
       setProductsPerPage(6)
     } else {
       setProductsPerPage(10)
