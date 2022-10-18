@@ -6,10 +6,15 @@ import { useAuth } from '../hooks/Auth'
 
 interface NavSideProps {
   handleMenu: () => void
+  handleHiddenSideMenu: () => void
   isHidden: boolean
 }
 
-const NavSide: React.FC<NavSideProps> = ({ handleMenu, isHidden }) => {
+const NavSide: React.FC<NavSideProps> = ({
+  handleMenu,
+  isHidden,
+  handleHiddenSideMenu,
+}) => {
   const { signOut } = useAuth()
   const [bg, setBg] = React.useState('/Dash/resume')
 
@@ -36,7 +41,7 @@ const NavSide: React.FC<NavSideProps> = ({ handleMenu, isHidden }) => {
           <div className="flex sm:hidden">
             <button
               onClick={() => {
-                handleMenu()
+                handleHiddenSideMenu()
               }}
               type="button"
               className="text-zinc-50 bg-transparent rounded-lg p-1.5 ml-auto inline-flex items-center hover:bg-red-600"
