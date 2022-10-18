@@ -83,7 +83,7 @@ export function Resume() {
           <CalendarPicker />
         </div>
       </div>
-      <div className="px-4 mt-4">
+      <div className="col-span-12 px-4 mt-4">
         <TableAppointment />
       </div>
     </div>
