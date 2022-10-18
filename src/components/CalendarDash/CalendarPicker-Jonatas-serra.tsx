@@ -14,13 +14,11 @@ export default function CalendarPicker() {
         backgroundColor: '#f8fafb',
         color: '#181A20',
         borderRadius: '0.5rem',
-        padding: '2rem',
+        padding: '1rem',
         justifyContent: 'center',
         alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: '360px',
-        maxWidth: '320px',
       }}
       locale={ptBR}
       mode="single"
