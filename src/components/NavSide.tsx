@@ -41,7 +41,7 @@ const NavSide: React.FC<NavSideProps> = ({
           <div className="flex sm:hidden">
             <button
               onClick={() => {
-                handleHiddenSideMenu()
+                handleMenu()
               }}
               type="button"
               className="text-zinc-50 bg-transparent rounded-lg p-1.5 ml-auto inline-flex items-center hover:bg-red-600"
@@ -69,7 +69,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="resume"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/resume"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -98,7 +98,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="appointments"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/appointments"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -133,7 +133,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="stylist"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/stylist"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -168,7 +168,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="services"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/services"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -198,7 +198,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="products"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/products"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -226,7 +226,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="finance"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/finance"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
@@ -263,7 +263,7 @@ const NavSide: React.FC<NavSideProps> = ({
                 id="settings"
                 onClick={() => {
                   handleSelect()
-                  handleMenu()
+                  handleHiddenSideMenu()
                 }}
                 to="/Dash/settings"
                 className={`flex items-center p-4 text-base font-normal text-white-100  rounded-lg hover:bg-orange-500 ${
