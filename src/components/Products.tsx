@@ -31,7 +31,7 @@ export function Products() {
     {} as Products,
   )
   const [currentPage, setCurrentPage] = useState(1)
-  const [productsPerPage, setProductsPerPage] = useState(8)
+  const [productsPerPage, setProductsPerPage] = useState(10)
   const [width, setWidth] = useState(window.innerWidth)
   const token = localStorage.getItem('@AgendaBarber:token')
   const { addToast } = useToast()
@@ -99,7 +99,7 @@ export function Products() {
     setLoading(true)
     setTimeout(() => {
       getProducts()
-    }, 2000)
+    }, 3000)
   }
 
   // Delete product
@@ -118,9 +118,9 @@ export function Products() {
   const handleResize = () => {
     setWidth(window.innerWidth)
     if (width > 640) {
-      setProductsPerPage(4)
+      setProductsPerPage(6)
     } else {
-      setProductsPerPage(8)
+      setProductsPerPage(10)
     }
   }
 
@@ -360,7 +360,10 @@ export function Products() {
                         Salvar
                       </button>
                       <button
-                        onClick={() => setModalIsOpenCreate(false)}
+                        onClick={() => {
+                          setModalIsOpenCreate(false)
+                          setSelectedProduct(null)
+                        }}
                         className="text-white bg-red-500 hover:bg-red-600 text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                       >
                         Cancelar
