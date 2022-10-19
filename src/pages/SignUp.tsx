@@ -46,7 +46,7 @@ export function SignUp() {
         addToast({
           type: 'success',
           title: 'Cadastro realizado!',
-          description: 'Você já pode fazer seu logon no GoBarber!',
+          description: 'Você já pode fazer seu login no Agenda Barber!',
         })
 
         navigate('/Login')
