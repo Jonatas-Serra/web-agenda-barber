@@ -19,27 +19,29 @@ const CardProduct: React.FC<CardProductProps> = ({
   handleSelectProduct,
 }) => {
   return (
-    <div className="w-full sm:max-w-[250px] lg:max-w-[250px] bg-white-100 rounded-lg shadow-md mr-6 mb-6">
+    <div className="w-full max-h-[24rem] sm:max-w-[18.75rem] lg:max-w-[18.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
       <div className="flex justify-center items-center w-full mx-auto">
         <a>
           <img
-            className="p-2 rounded-[15px] max-h-56"
-            alt="imagem do serviço"
+            width={183}
+            height={132}
+            className="p-2 rounded-[0.938rem] object-fill"
+            alt="imagem do produto"
             src={image}
           />
         </a>
       </div>
-      <div className="px-5 pb-5">
+      <div className="px-5 pb-3">
         <Link to={`/${_id}`}>
-          <h5 className="text-xl font-semibold tracking-tight text-gray-900 mb-4">
+          <h5 className="text-lg leading-5 h-11 overflow-hidden font-semibold tracking-tight text-gray-900 mb-4">
             {name}
           </h5>
         </Link>
 
         <div className="flex-col justify-center items-center">
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-1">
             <span className="text-xl font-extrabold text-gray-900 ">
-              R$ <strong className="text-3xl">{price}</strong>
+              R$ <strong className="text-2xl">{price}</strong>
             </span>
           </div>
           <div className="flex justify-center items-center">

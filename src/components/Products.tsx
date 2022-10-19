@@ -150,7 +150,7 @@ export function Products() {
   }, [handleResize, width])
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-full overflow-hidden">
       <div className="w-full flex justify-end">
         <button
           onClick={() => setModalIsOpenCreate(true)}
@@ -159,7 +159,7 @@ export function Products() {
           Adicionar
         </button>
       </div>
-      <div className="flex flex-wrap w-full mt-8 justify-center px-8 sm:px-0 ml-4 md:ml-2">
+      <div className="flex flex-wrap w-full justify-center px-8 sm:px-0 ml-4 md:ml-2">
         {loading ? (
           <div className="flex flex-1 justify-center items-center">
             <svg

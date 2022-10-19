@@ -22,11 +22,13 @@ const CardService: React.FC<CardServiceProps> = ({
   handleSelectService,
 }) => {
   return (
-    <div className="w-full sm:max-w-[250px] lg:max-w-[250px] bg-white-100 rounded-lg shadow-md mr-6 mb-6">
+    <div className="w-full max-h-[24rem] sm:max-w-[18.75rem] lg:max-w-[18.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
       <div className="flex justify-center items-center w-full mx-auto">
         <a>
           <img
-            className="p-2 rounded-[15px] max-h-48"
+            width={183}
+            height={132}
+            className="p-2 rounded-[0.938rem] object-fill"
             alt="imagem do serviço"
             src={image}
           />
@@ -34,7 +36,7 @@ const CardService: React.FC<CardServiceProps> = ({
       </div>
       <div className="px-5 pb-5">
         <Link to={`/${_id}`}>
-          <h5 className="text-2xl text-center font-extrabold tracking-tight text-gray-900 mb-4">
+          <h5 className="text-lg leading-5 h-11 overflow-hidden font-semibold tracking-tight text-gray-900 mb-4">
             {name}
           </h5>
         </Link>
@@ -42,7 +44,7 @@ const CardService: React.FC<CardServiceProps> = ({
         <div className="flex-col justify-center items-center">
           <div className="flex justify-center mb-2">
             <span className="text-xl font-extrabold text-gray-900 ">
-              R$ <strong className="text-3xl">{price}</strong>
+              R$ <strong className="text-2xl">{price}</strong>
             </span>
           </div>
           <div className="flex justify-center items-center">
