@@ -119,9 +119,13 @@ export function Services() {
   // Modify the number of services per page depending on the screen size
   const handleResize = () => {
     setWidth(window.innerWidth)
-    if (width > 640) {
+    if (width < 640) {
       setServicesPerPage(4)
-    } else {
+    }
+    if (width >= 1150) {
+      setServicesPerPage(6)
+    }
+    if (width >= 1220) {
       setServicesPerPage(8)
     }
   }
@@ -153,7 +157,7 @@ export function Services() {
 
   return (
     <>
-      <div className="flex flex-col w-full">
+      <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-hidden">
         <div className="w-full flex justify-end">
           <button
             onClick={() => setModalIsOpenCreate(true)}
@@ -162,7 +166,7 @@ export function Services() {
             Adicionar
           </button>
         </div>
-        <div className="flex flex-wrap w-full mt-8 justify-center px-8 sm:px-0">
+        <div className="flex flex-wrap w-full justify-center px-8 sm:px-0 ml-4 md:ml-2">
           {loading ? (
             <div className="flex flex-1 justify-center items-center">
               <svg

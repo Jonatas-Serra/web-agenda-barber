@@ -63,17 +63,24 @@ export function Products() {
     const data = Object.fromEntries(formData)
 
     if (file) {
-      const image = file as File
-      const dataImage = new FormData()
-      dataImage.append('file', image)
+      const checkimage = file.name
 
-      const response = await api.post('products/upload', dataImage, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      if (checkimage === '') {
+        console.log('nao faz nada')
+        data.image = ''
+      } else {
+        const image = file as File
+        const dataImage = new FormData()
+        dataImage.append('file', image)
 
-      data.image = response.data.url
+        const response = await api.post('products/upload', dataImage, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        data.image = response.data.url
+      }
     }
 
     api

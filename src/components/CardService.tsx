@@ -22,13 +22,13 @@ const CardService: React.FC<CardServiceProps> = ({
   handleSelectService,
 }) => {
   return (
-    <div className="w-full max-h-[24rem] sm:max-w-[18.75rem] lg:max-w-[18.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
+    <div className="w-full max-h-[24rem] sm:max-w-[14.75rem] lg:max-w-[14.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
       <div className="flex justify-center items-center w-full mx-auto">
         <a>
           <img
             width={183}
             height={132}
-            className="p-2 rounded-[0.938rem] object-fill"
+            className="p-2 rounded-[0.938rem] object-scale-down"
             alt="imagem do serviço"
             src={image}
           />
@@ -42,7 +42,7 @@ const CardService: React.FC<CardServiceProps> = ({
         </Link>
 
         <div className="flex-col justify-center items-center">
-          <div className="flex justify-center mb-2">
+          <div className="flex justify-center mb-1">
             <span className="text-xl font-extrabold text-gray-900 ">
               R$ <strong className="text-2xl">{price}</strong>
             </span>
