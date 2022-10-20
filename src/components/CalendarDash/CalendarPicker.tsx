@@ -20,7 +20,7 @@ export default function CalendarPicker() {
         display: 'flex',
         flexDirection: 'column',
         maxHeight: '360px',
-        maxWidth: '320px',
+        maxWidth: '380px',
       }}
       locale={ptBR}
       mode="single"

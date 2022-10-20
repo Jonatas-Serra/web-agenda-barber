@@ -109,7 +109,7 @@ export function Resume() {
 
       {/* COLUNA 2 */}
 
-      <div className="mx-0 mt-2 col-span-12 xl:col-span-4 lg:mt-0">
+      <div className="mx-0 ml-2 mt-2 col-span-12 xl:col-span-4 lg:mt-0">
         <CalendarPicker />
         <div className="mt-8">
           <div className="bg-zinc-50 rounded-lg">
@@ -128,7 +128,7 @@ export function Resume() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-zinc-900 font-extrabold text-xl">
+                      <h3 className="text-zinc-900 font-extrabold text-base">
                         Sergio Ramos
                       </h3>
                     </div>
@@ -201,7 +201,7 @@ export function Resume() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-zinc-900 font-extrabold text-xl">
+                      <h3 className="text-zinc-900 font-extrabold text-base">
                         Ashley Cole
                       </h3>
                     </div>
@@ -274,7 +274,7 @@ export function Resume() {
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-zinc-900 font-extrabold text-xl">
+                      <h3 className="text-zinc-900 font-extrabold text-base">
                         Pavel Nedved
                       </h3>
                     </div>
