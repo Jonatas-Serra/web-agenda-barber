@@ -9,7 +9,7 @@ import { Stylist } from '../components/Stylist'
 import { Services } from '../components/Services'
 import { Products } from '../components/Products'
 import { Finance } from '../components/Finance'
-import { Settings } from '../components/Settings'
+import Settings from '../components/Settings'
 import ProtectedRoute from './ProtectedRoute'
 
 export function Router() {
