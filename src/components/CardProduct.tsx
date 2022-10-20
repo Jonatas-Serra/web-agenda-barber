@@ -19,7 +19,7 @@ const CardProduct: React.FC<CardProductProps> = ({
   handleSelectProduct,
 }) => {
   return (
-    <div className="w-full max-h-[24rem] sm:max-w-[18.75rem] lg:max-w-[18.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
+    <div className="w-full max-h-[24rem] sm:max-w-[14.75rem] lg:max-w-[14.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
       <div className="flex justify-center items-center w-full mx-auto">
         <a>
           <img

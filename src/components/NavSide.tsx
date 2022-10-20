@@ -33,7 +33,7 @@ const NavSide: React.FC<NavSideProps> = ({
 
   return (
     <aside className={`${isHidden ? 'w-screen z-30' : 'w-64'}`}>
-      <div className="h-screen flex flex-col py-4 px-3 bg-zinc-900">
+      <div className="h-full flex flex-col py-4 px-3 bg-zinc-900">
         <div className="flex items-center py-4 justify-center sm:mb-12">
           <div className="hidden sm:flex">
             <Logo />

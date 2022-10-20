@@ -31,7 +31,7 @@ export function Products() {
     {} as Products,
   )
   const [currentPage, setCurrentPage] = useState(1)
-  const [productsPerPage, setProductsPerPage] = useState(10)
+  const [productsPerPage, setProductsPerPage] = useState(8)
   const [width, setWidth] = useState(window.innerWidth)
   const token = localStorage.getItem('@AgendaBarber:token')
   const { addToast } = useToast()
@@ -118,9 +118,13 @@ export function Products() {
   const handleResize = () => {
     setWidth(window.innerWidth)
     if (width < 640) {
+      setProductsPerPage(4)
+    }
+    if (width >= 1150) {
       setProductsPerPage(6)
-    } else {
-      setProductsPerPage(10)
+    }
+    if (width >= 1220) {
+      setProductsPerPage(8)
     }
   }
 
@@ -150,7 +154,7 @@ export function Products() {
   }, [handleResize, width])
 
   return (
-    <div className="flex flex-col w-full h-full overflow-hidden">
+    <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-hidden">
       <div className="w-full flex justify-end">
         <button
           onClick={() => setModalIsOpenCreate(true)}
