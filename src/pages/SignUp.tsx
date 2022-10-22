@@ -60,7 +60,7 @@ export function SignUp() {
 
         addToast({
           type: 'error',
-          title: 'Erro na autenticação',
+          title: 'Erro ao cadastrar',
           description: `${err.response.data.message}`,
         })
       }
