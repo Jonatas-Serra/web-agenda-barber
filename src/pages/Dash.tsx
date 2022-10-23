@@ -17,7 +17,7 @@ const Dash: React.FC = () => {
     setIsHidden(false)
   }
   return (
-    <main className="h-full flex bg-zinc-300">
+    <main className="h-screen flex bg-zinc-300">
       <div className={`${isOpenMenu ? 'flex' : 'hidden'} sm:flex`}>
         <NavSide
           handleMenu={handleMenu}
@@ -26,7 +26,11 @@ const Dash: React.FC = () => {
         />
       </div>
 
-      <div className={`${isHidden ? 'hidden' : 'flex flex-col w-full'}`}>
+      <div
+        className={`${
+          isHidden ? 'hidden' : 'flex flex-col w-full'
+        }  h-full overflow-y-auto`}
+      >
         <HeaderDash handleMenu={handleMenu} isHidden={isHidden} />
         <Outlet />
       </div>

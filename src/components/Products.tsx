@@ -161,7 +161,7 @@ export function Products() {
   }, [handleResize, width])
 
   return (
-    <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-hidden">
+    <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-x-hidden">
       <div className="w-full flex justify-end">
         <button
           onClick={() => setModalIsOpenCreate(true)}

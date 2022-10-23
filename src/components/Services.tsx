@@ -20,13 +20,14 @@ interface Service {
   price: number
   recurrence: number
   image: string
+  image_url: string
 
   handlemodalIsOpenDelete: (id: string) => void
   handleSelectService: (service: Service) => void
 }
 
 interface User {
-  id: string
+  _id: string
 }
 
 export function Services() {
@@ -71,7 +72,6 @@ export function Services() {
       const checkimage = file.name
 
       if (checkimage === '') {
-        console.log('nao faz nada')
         data.image = ''
       } else {
         const image = file as File
@@ -164,7 +164,7 @@ export function Services() {
 
   return (
     <>
-      <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-hidden">
+      <div className="flex flex-col w-full h-full md:h-[54.06rem] overflow-x-hidden">
         <div className="w-full flex justify-end">
           <button
             onClick={() => setModalIsOpenCreate(true)}
@@ -202,7 +202,7 @@ export function Services() {
                 duration={service.duration}
                 price={service.price}
                 recurrence={service.recurrence}
-                image={service.image}
+                image={service.image_url}
                 handlemodalIsOpenDelete={handlemodalIsOpenDelete}
                 handleSelectService={handleSelectService}
                 _id={service._id}
@@ -317,7 +317,7 @@ export function Services() {
                           <input
                             type="text"
                             name="barber"
-                            value={user.id}
+                            value={user._id}
                             className="hidden"
                           />
                           <input

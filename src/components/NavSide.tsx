@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Logo } from './Logo'
 import { Link, useLocation } from 'react-router-dom'
@@ -16,7 +16,7 @@ const NavSide: React.FC<NavSideProps> = ({
   handleHiddenSideMenu,
 }) => {
   const { signOut } = useAuth()
-  const [bg, setBg] = React.useState('/Dash/resume')
+  const [bg, setBg] = useState('/Dash/resume')
 
   const usePathname = () => {
     const location = useLocation()
