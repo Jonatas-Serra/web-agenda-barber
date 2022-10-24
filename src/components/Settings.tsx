@@ -53,6 +53,42 @@ const Settings: React.FC = () => {
     setBarber(response.data)
   }
 
+  // Change info of barber
+  const handleChangeInfo = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData)
+
+    // Don't change if the field is empty
+    const checkData = Object.keys(data).filter((key) => data[key] === '')
+
+    if (checkData.length > 0) {
+      // Delete fields empty
+      checkData.forEach((key) => delete data[key])
+    }
+
+    try {
+      await api.patch(`barbers/${user._id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      addToast({
+        type: 'success',
+        title: 'Informações alteradas com sucesso',
+      })
+      setOpenChangeInfo(false)
+      getbarber()
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao alterar informações',
+      })
+    }
+  }
+
   // Update barber photo
   const handleChangerImage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -104,7 +140,7 @@ const Settings: React.FC = () => {
     getbarber()
   }
 
-  // Update multiples files to barber Gallery
+  // Update multiples files to barber Gallery [## TERMINAR E TESTAR ESSE CARA ##]
   const handleChangerGallery = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -239,7 +275,12 @@ const Settings: React.FC = () => {
               </div>
             </div>
             <div className="flex justify-end md:m-0 md:items-start">
-              <button className="flex items-center text-orange-500 just underline">
+              <button
+                onClick={() => {
+                  setOpenChangeInfo(true)
+                }}
+                className="flex items-center text-orange-500 just underline"
+              >
                 <FiEdit size={20} className="mr-2" />
                 Editar
               </button>
@@ -610,6 +651,142 @@ const Settings: React.FC = () => {
                     </button>
                     <button
                       onClick={() => setOpenChangeImage(false)}
+                      className="text-white bg-red-500 hover:bg-red-600 text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {openChangeInfo && (
+        <div className="relative h-full w-[100px] md:w-full">
+          <div className="overflow-y-auto overflow-x-hidden fixed top-[10%] left-[0%] md:top-[20%] md:left-[35%] z-50  w-full md:h-full">
+            <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
+              <div className="relative rounded-lg shadow bg-zinc-900">
+                <div className="flex justify-between items-center p-5 rounded-t border-b border-zinc-700">
+                  <h3 className="text-xl font-medium text-zinc-50">
+                    Alterar informações da barbearia
+                  </h3>
+                  <button
+                    onClick={() => setOpenChangeInfo(false)}
+                    type="button"
+                    className="text-zinc-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      ></path>
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+                <form onSubmit={handleChangeInfo}>
+                  <div className="grid gap-6 mb-0 md:mb-6 md:grid-cols-4 p-4">
+                    <div className="col-span-2">
+                      <label className="block mb-2 text-sm font-medium text-zinc-50">
+                        Nome da barbearia
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        className="border text-sm font-medium rounded-lg  block w-full p-3 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Nome da barbearia"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <label className="block mb-2 text-sm font-medium text-zinc-300">
+                        Telefone
+                      </label>
+                      <input
+                        type="text"
+                        name="phone"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Telefone"
+                      />
+                    </div>
+                    <div className="col-span-4">
+                      <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        className="border text-sm font-medium rounded-lg  block w-full p-3 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div className="col-span-3">
+                      <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                        Endereço
+                      </label>
+                      <input
+                        type="text"
+                        name="address.street"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Rua"
+                      />
+                    </div>
+                    <div className="col-span-1">
+                      <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                        Número
+                      </label>
+                      <input
+                        type="text"
+                        name="address.number"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Número"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <input
+                        type="text"
+                        name="address.city"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50 mb-6"
+                        placeholder="Cidade"
+                      />
+                      <input
+                        type="text"
+                        name="address.state"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Estado"
+                      />
+                    </div>
+                    <div className="col-span-2">
+                      <input
+                        type="text"
+                        name="address.zipcode"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50 mb-6"
+                        placeholder="CEP"
+                      />
+                      <input
+                        type="text"
+                        name="address.coutry"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="País"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-end p-2 md:p-6 space-x-2 rounded-b border-t border-zinc-700">
+                    <button
+                      type="submit"
+                      className="text-white bg-orange-400 hover:bg-orange-500 hover:transition-shadow text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    >
+                      Salvar
+                    </button>
+                    <button
+                      onClick={() => setOpenChangeInfo(false)}
                       className="text-white bg-red-500 hover:bg-red-600 text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                     >
                       Cancelar
