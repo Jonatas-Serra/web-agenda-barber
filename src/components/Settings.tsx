@@ -556,15 +556,7 @@ const Settings: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col justify-center xl:flex-row md:justify-between p-4 mt-4 bg-[#FFF] rounded-lg overflow-x-auto">
-        <div className="flex flex-col justify-center items-center w-1/2 xl:w-1/4">
-          <img
-            src={barber?.photos[0]}
-            alt="Foto do barbeiro"
-            className="w-full h-64 object-cover rounded-lg"
-          />
-        </div>
-      </div>
+      <div className="flex flex-col justify-center xl:flex-row md:justify-between p-4 mt-4 bg-[#FFF] rounded-lg overflow-x-auto"></div>
       {openChangeImage && (
         <div className="relative h-full w-[100px] md:w-full">
           <div className="overflow-y-auto overflow-x-hidden fixed top-[10%] left-[0%] md:top-[20%] md:left-[35%] z-50  w-full md:h-full">
