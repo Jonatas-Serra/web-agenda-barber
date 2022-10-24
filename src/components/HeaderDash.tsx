@@ -51,7 +51,7 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
   }, [location])
 
   return (
-    <div className="flex flex-col w-full bg-zinc-900 h-[80px]">
+    <div className="flex flex-col w-full bg-zinc-900 h-[80px] py-2">
       <div className="flex flex-row justify-between items-center h-full px-8 lg:px-10">
         <h3 className="hidden sm:flex font-bold text-2xl text-center">
           {Title}
@@ -80,8 +80,8 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
           </svg>
         </button>
         <div className="flex items-center justify-center">
-          <div className="mr-4 mt-2 text-orange-400">
-            <button>
+          <div className="mr-4 mt-7 text-orange-400">
+            <button className="">
               <svg
                 className="w-8 h-8"
                 fill="none"
@@ -90,13 +90,13 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
                 ></path>
               </svg>
-              <div className="text-zinc-50 inline-flex justify-center absolute top-4 items-center z-20 w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
+              <div className="text-zinc-50 inline-flex justify-center relative -top-11 -right-3 items-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full">
                 2
               </div>
             </button>
