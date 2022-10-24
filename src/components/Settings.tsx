@@ -5,6 +5,7 @@ import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
 interface User {
+  _id: string
   name: string
   email: string
   image_url: string
@@ -15,6 +16,14 @@ interface User {
     state: string
     zip: string
     coutry: string
+  }
+  photos: {
+    [x: string]: any
+    0: string
+    1: string
+    2: string
+    3: string
+    4: string
   }
   phone: string
 }
@@ -53,8 +62,6 @@ const Settings: React.FC = () => {
     const file = formData.get('image') as File
     const data = Object.fromEntries(formData)
 
-    console.log('log 01', data)
-
     if (file) {
       const checkimage = file.name
 
@@ -72,7 +79,6 @@ const Settings: React.FC = () => {
         })
 
         data.image = response.data.url
-        console.log('log 02', data.image)
       }
     }
 
@@ -94,7 +100,6 @@ const Settings: React.FC = () => {
           title: 'Erro ao alterar imagem, tente novamente!',
         })
       })
-    console.log('log 03', data)
     setOpenChangeImage(false)
     getbarber()
   }
@@ -157,95 +162,362 @@ const Settings: React.FC = () => {
   }, [])
 
   return (
-    <div className="flex flex-col px-4">
-      <h1 className="text-3xl font-bold text-zinc-900 mt-2">
-        Informações da barbearia
-      </h1>
-      <div className="flex justify-between p-4 mt-4 bg-[#FFF] rounded-lg">
-        <div className="p-4">
-          <img
-            className="rounded-full"
-            width={135}
-            src={barber.image_url}
-            alt="Foto da barbearia"
-          />
-          <button
-            onClick={() => {
-              setOpenChangeImage(true)
-            }}
-          >
-            <svg
-              className="w-9 h-9 text-zinc-50 cursor-pointer bg-orange-500 rounded-full p-1 relative -top-10 -right-24"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke-width="2"
-                d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-              ></path>
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                stroke-width="2"
-                d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div className="flex flex-col justify-center ">
-          <h3 className="text-xl font-bold text-zinc-900 md:text-2xl">
-            {barber.name}
-          </h3>
-          <div className="flex items-center pl-2">
-            <FiMail size={20} className="text-orange-500 mr-2" />
-            <p className="text-zinc-900 font-semibold">{barber.email}</p>
-          </div>
-          <div className="flex items-center pl-2">
-            <FiPhone size={20} className="text-orange-500 mr-2" />
-            <p className="text-zinc-900 font-semibold">{barber.phone}</p>
-          </div>
-          <div className="flex flex-col mt-4">
-            <div className="flex items-center">
-              <h3 className="text-xl font-bold text-zinc-900">Endereço</h3>
+    <div className="flex flex-col px-4 ">
+      <section className="flex flex-col xl:flex-row w-full justify-around">
+        {/* Informaçoes da Barbearia */}
+        <div className="flex flex-col w-full mr-2">
+          <h1 className="text-3xl font-bold text-zinc-900 mt-2">
+            Informações da barbearia
+          </h1>
+          <div className="flex flex-col justify-center xl:flex-row xl:justify-between p-4 mt-4 bg-[#FFF] rounded-lg">
+            <div className="p-4 m-auto xl:m-0">
+              <img
+                className="w-[220px] sm:w-[135px] rounded-full"
+                src={barber.image_url}
+                alt="Foto da barbearia"
+              />
+              <button
+                onClick={() => {
+                  setOpenChangeImage(true)
+                }}
+              >
+                <svg
+                  className="w-9 h-9 text-zinc-50 cursor-pointer bg-orange-500 rounded-full p-1 relative -top-5 sm:-top-10 -right-16 sm:-right-24"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    stroke-width="2"
+                    d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                  ></path>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    stroke-width="2"
+                    d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+              </button>
             </div>
-            <div className="flex items-center">
-              <FiMapPin size={30} className="text-orange-500 mr-2" />
-              <div>
-                <p className="text-zinc-900 font-semibold text-sm">
-                  {barber.address?.street}, {barber.address?.number}
-                </p>
-                <p className="text-zinc-900 font-semibold text-sm">
-                  {barber.address?.city} - {barber.address?.state}
-                </p>
-                <p className="text-zinc-900 font-semibold text-sm">
-                  {barber.address?.zip}
-                </p>
-                <p className="text-zinc-900 font-semibold text-sm">
-                  {barber.address?.coutry}
-                </p>
+            <div className="flex flex-col justify-center m-auto xl:m-0">
+              <h3 className="text-xl font-bold text-zinc-900 md:text-2xl">
+                {barber.name}
+              </h3>
+              <div className="flex items-center pl-2">
+                <FiMail size={20} className="text-orange-500 mr-2" />
+                <p className="text-zinc-900 font-semibold">{barber.email}</p>
+              </div>
+              <div className="flex items-center pl-2">
+                <FiPhone size={20} className="text-orange-500 mr-2" />
+                <p className="text-zinc-900 font-semibold">{barber.phone}</p>
+              </div>
+              <div className="flex flex-col mt-4">
+                <div className="flex items-center">
+                  <h3 className="text-xl font-bold text-zinc-900">Endereço</h3>
+                </div>
+                <div className="flex items-center">
+                  <FiMapPin size={30} className="text-orange-500 mr-2" />
+                  <div>
+                    <p className="text-zinc-900 font-semibold text-sm">
+                      {barber.address?.street}, {barber.address?.number}
+                    </p>
+                    <p className="text-zinc-900 font-semibold text-sm">
+                      {barber.address?.city} - {barber.address?.state}
+                    </p>
+                    <p className="text-zinc-900 font-semibold text-sm">
+                      {barber.address?.zip}
+                    </p>
+                    <p className="text-zinc-900 font-semibold text-sm">
+                      {barber.address?.coutry}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
+            <div className="flex justify-end md:m-0 md:items-start">
+              <button className="flex items-center text-orange-500 just underline">
+                <FiEdit size={20} className="mr-2" />
+                Editar
+              </button>
+            </div>
           </div>
         </div>
-        <div>
-          <button className="flex items-center text-orange-500 just underline">
-            <FiEdit size={20} className="mr-2" />
-            Editar
-          </button>
+        {/* Horario de funcionamento */}
+        <div className="flex flex-col w-full ml-2">
+          <h1 className="text-3xl font-bold text-zinc-900 mt-2">
+            Horario de funcionamento
+          </h1>
+          <div className="flex flex-col justify-center md:flex-row md:justify-between p-4 mt-4 bg-[#FFF] rounded-lg  overflow-x-auto">
+            {/* Horarios */}
+            <div className="flex-col m-auto">
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Domingo
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Segunda
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Terça
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Quarta
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Quinta
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Sexta
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center mb-4">
+                <div className="flex items-center h-full w-[5.313rem]">
+                  <input
+                    type="checkbox"
+                    value="0"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                  />
+                  <label className="ml-2 text-sm font-bold text-gray-900">
+                    Sábado
+                  </label>
+                </div>
+                <div className="flex items-center ml-4">
+                  <div className="flex">
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                    <input
+                      type="time"
+                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                      placeholder="00:00"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Horarios */}
+          </div>
         </div>
-      </div>
+      </section>
       <h1 className="text-3xl font-bold text-zinc-900 mt-2">Galeria</h1>
+      {/* Carrousel */}
       <div className="flex justify-between py-4 mt-4 bg-[#FFF] rounded-lg">
-        {/* Carrousel */}
-
-        <div className="relative py-2 xl:flex-col xl:justify-center xl:items-center xl:w-full">
-          <div className="px-4">
+        <div className="relative py-2 xl:flex-col xl:justify-center xl:items-center w-full">
+          <div className="w-full xl:w-[75%] xl:mx-auto px-4">
             <form onSubmit={handleChangerGallery}>
-              <label className="block mb-2 text-sm font-medium text-zinc-900">
+              <label className="block text-center mb-2 text-sm font-medium text-zinc-900">
                 Coloque suas melhores fotos aqui !
               </label>
               <label className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 cursor-pointer  bg-zinc-900 border-zinc-600 hover:border-zinc-400 hover:bg-zinc-700">
@@ -277,88 +549,20 @@ const Settings: React.FC = () => {
                   name="fotos"
                   type="file"
                   multiple={true}
-                  className="text-center cursor-pointer"
+                  className="text-center cursor-pointer hidden"
                 />
               </label>
             </form>
           </div>
-          <div className="flex h-56 rounded-lg md:h-96">
-            <div className="w-full p-4">
-              <img
-                className="w-full h-full object-cover rounded-lg"
-                src={
-                  'https://cdn-dfcog.nitrocdn.com/jmTlbfZEAllUYTTwsPmshemsUKuSytFV/assets/static/optimized/rev-5dd0719/wp-content/uploads/2021/09/Design-sem-nome-50.png'
-                }
-                alt=""
-              />
-              <button className="cursor-pointer overflow-visible  relative -top-[102%] left-[95%]">
-                <svg
-                  className="w-7 h-7 p-2 bg-red-600 rounded-full  text-zinc-50 "
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className="w-full p-4">
-              <img
-                className="w-full h-full object-cover rounded-lg"
-                src={
-                  'https://cdn-dfcog.nitrocdn.com/jmTlbfZEAllUYTTwsPmshemsUKuSytFV/assets/static/optimized/rev-5dd0719/wp-content/uploads/2021/09/Design-sem-nome-50.png'
-                }
-                alt=""
-              />
-              <button className="cursor-pointer overflow-visible  relative -top-[102%] left-[95%]">
-                <svg
-                  className="w-7 h-7 p-2 bg-red-600 rounded-full  text-zinc-50 "
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className="w-full p-4">
-              <img
-                className="w-full h-full object-cover rounded-lg"
-                src={
-                  'https://cdn-dfcog.nitrocdn.com/jmTlbfZEAllUYTTwsPmshemsUKuSytFV/assets/static/optimized/rev-5dd0719/wp-content/uploads/2021/09/Design-sem-nome-50.png'
-                }
-                alt=""
-              />
-              <button className="cursor-pointer overflow-visible  relative -top-[102%] left-[95%]">
-                <svg
-                  className="w-7 h-7 p-2 bg-red-600 rounded-full  text-zinc-50 "
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  ></path>
-                </svg>
-              </button>
-            </div>
-          </div>
+        </div>
+      </div>
+      <div className="flex flex-col justify-center xl:flex-row md:justify-between p-4 mt-4 bg-[#FFF] rounded-lg overflow-x-auto">
+        <div className="flex flex-col justify-center items-center w-1/2 xl:w-1/4">
+          <img
+            src={barber?.photos[0]}
+            alt="Foto do barbeiro"
+            className="w-full h-64 object-cover rounded-lg"
+          />
         </div>
       </div>
       {openChangeImage && (
