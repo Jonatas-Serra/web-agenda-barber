@@ -148,28 +148,28 @@ const Settings: React.FC = () => {
 
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
-    const files = formData.getAll('images') as File[]
+    const files = formData.getAll('photos') as File[]
     const data = Object.fromEntries(formData)
 
     if (files) {
       const checkimage = files[0].name
 
       if (checkimage === '') {
-        data.images = ''
+        data.photos = ''
       } else {
-        const images = files as File[]
-        const dataImages = new FormData()
-        images.forEach((image) => {
-          dataImages.append('files', image)
+        const photos = files as File[]
+        const dataPhotos = new FormData()
+        photos.forEach((image) => {
+          dataPhotos.append('files', image)
         })
 
-        const response = await api.post('barbers/upload', dataImages, {
+        const response = await api.post('barbers/upload', dataPhotos, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         })
 
-        data.images = response.data
+        data.photos = response.data
       }
     }
 
