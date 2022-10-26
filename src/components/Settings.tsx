@@ -37,7 +37,6 @@ const Settings: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [openChangeImage, setOpenChangeImage] = useState(false)
   const [openChangeInfo, setOpenChangeInfo] = useState(false)
-  const [openChangerGallery, setOpenChangerGallery] = useState(false)
 
   const user = useAuth().user as UserAuth
   const token = localStorage.getItem('@AgendaBarber:token')
@@ -163,7 +162,7 @@ const Settings: React.FC = () => {
           dataPhotos.append('files', image)
         })
 
-        const response = await api.post('barbers/upload', dataPhotos, {
+        const response = await api.post('barbers/gallery', dataPhotos, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -191,7 +190,6 @@ const Settings: React.FC = () => {
           title: 'Erro ao alterar imagens, tente novamente!',
         })
       })
-    setOpenChangerGallery(false)
     getbarber()
   }
 
@@ -563,7 +561,7 @@ const Settings: React.FC = () => {
               <label className="block text-center mb-2 text-sm font-medium text-zinc-900">
                 Coloque suas melhores fotos aqui !
               </label>
-              <label className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 cursor-pointer  bg-zinc-900 border-zinc-600 hover:border-zinc-400 hover:bg-zinc-700">
+              <label className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 bg-zinc-900 border-zinc-600 hover:border-zinc-400 hover:bg-zinc-700">
                 <div className="flex flex-col justify-center items-center pt-5 pb-6">
                   <svg
                     aria-hidden="true"
@@ -589,11 +587,14 @@ const Settings: React.FC = () => {
                   </p>
                 </div>
                 <input
-                  name="fotos"
+                  name="photos"
                   type="file"
                   multiple={true}
-                  className="text-center cursor-pointer hidden"
+                  className="text-center cursor-pointer mb-8"
                 />
+                <button type="submit" className="text-center cursor-pointer ">
+                  Enviar Fotos
+                </button>
               </label>
             </form>
           </div>
@@ -620,13 +621,13 @@ const Settings: React.FC = () => {
             </svg>
           </div>
         ) : (
-          Object.keys(barber.photos).map((photo) => (
+          Object.keys(barber.photos.photos).map((photo) => (
             <div
               key={photo}
               className="flex flex-col justify-center items-center w-64 h-64 rounded-lg mb-4 mr-4"
             >
               <img
-                src={barber.photos[photo]}
+                src={barber.photos.photos[photo]}
                 alt="Foto do barbeiro"
                 className="w-full h-full object-cover rounded-t-lg"
               />
