@@ -1,3 +1,8 @@
+import { useCallback, useEffect } from 'react'
+import api from '../services/api'
+import { useAuth } from '../hooks/Auth'
+import { useToast } from '../hooks/Toast'
+
 import CalendarPicker from './CalendarDash/CalendarPicker'
 import { TableAppointment } from './TableAppointments'
 
@@ -7,6 +12,10 @@ import { Doughnut } from 'react-chartjs-2'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export function Resume() {
+  const { signOut } = useAuth()
+  const { addToast } = useToast()
+  const token = localStorage.getItem('@AgendaBarber:token')
+
   const data = {
     labels: ['Confirmados', 'Pendentes', 'Cancelados'],
     datasets: [
@@ -21,6 +30,31 @@ export function Resume() {
       },
     ],
   }
+
+  const verifyToken = () => {
+    if (!token) {
+      signOut()
+      addToast({
+        type: 'error',
+        title: 'Erro ao autenticar',
+        description: 'Faça login novamente',
+      })
+    } else {
+      api.post('/auth/check', { token }).catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Sessão expirada',
+          description: 'Faça login novamente',
+        })
+        signOut()
+      })
+    }
+  }
+
+  useEffect(() => {
+    verifyToken()
+  }, [])
+
   return (
     <div className="w-full grid grid-cols-12 gap-2 px-4 pt-2">
       {/* COLUNA 1 */}

@@ -1,9 +1,9 @@
-import styled, { css } from 'styled-components';
-import { animated } from 'react-spring';
+import styled, { css } from 'styled-components'
+import { animated } from 'react-spring'
 
 interface ContainerPros {
-  type?: 'success' | 'error' | 'info';
-  hasDescription: boolean;
+  type?: 'success' | 'error' | 'info'
+  hasDescription: boolean
 }
 
 const toastTypeVariations = {
@@ -19,7 +19,7 @@ const toastTypeVariations = {
     background: #fddede;
     color: #c53030;
   `,
-};
+}
 
 export const Container = styled(animated.div)<ContainerPros>`
   width: 360px;
@@ -68,4 +68,4 @@ export const Container = styled(animated.div)<ContainerPros>`
         margin-top: 0;
       }
     `}
-`;
+`
