@@ -25,6 +25,14 @@ interface User {
     3: string
     4: string
   }
+  photos_url: {
+    [x: string]: any
+    0: string
+    1: string
+    2: string
+    3: string
+    4: string
+  }
   phone: string
 }
 
@@ -37,6 +45,7 @@ const Settings: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [openChangeImage, setOpenChangeImage] = useState(false)
   const [openChangeInfo, setOpenChangeInfo] = useState(false)
+  const [selectphoto, setSelectPhoto] = useState(null)
 
   const user = useAuth().user as UserAuth
   const token = localStorage.getItem('@AgendaBarber:token')
@@ -156,11 +165,8 @@ const Settings: React.FC = () => {
       if (checkimage === '') {
         data.photos = ''
       } else {
-        const photos = files as File[]
         const dataPhotos = new FormData()
-        photos.forEach((image) => {
-          dataPhotos.append('files', image)
-        })
+        files.map((file) => dataPhotos.append('files', file))
 
         const response = await api.post('barbers/gallery', dataPhotos, {
           headers: {
@@ -173,7 +179,7 @@ const Settings: React.FC = () => {
     }
 
     api
-      .patch(`barbers/${user._id}`, data, {
+      .patch(`barbers/${user._id}`, data.photos[0], {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -190,7 +196,39 @@ const Settings: React.FC = () => {
           title: 'Erro ao alterar imagens, tente novamente!',
         })
       })
-    getbarber()
+    setTimeout(() => {
+      getbarber()
+    }, 2000)
+  }
+
+  // Delete barber photo
+  const handleDeleteImage = async (photo: string) => {
+    const data = {
+      image: photo,
+    }
+
+    api
+      .delete(`barbers/gallery/${user._id}`, {
+        data,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        addToast({
+          type: 'success',
+          title: `Imagem deletada com sucesso!`,
+        })
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Erro ao deletar imagem, tente novamente!',
+        })
+      })
+    setTimeout(() => {
+      getbarber()
+    }, 1000)
   }
 
   React.useEffect(() => {
@@ -621,17 +659,20 @@ const Settings: React.FC = () => {
             </svg>
           </div>
         ) : (
-          Object.keys(barber.photos.photos).map((photo) => (
+          Object.keys(barber.photos_url).map((photo) => (
             <div
               key={photo}
               className="flex flex-col justify-center items-center w-64 h-64 rounded-lg mb-4 mr-4"
             >
               <img
-                src={barber.photos.photos[photo]}
+                src={barber.photos_url[photo]}
                 alt="Foto do barbeiro"
-                className="w-full h-full object-cover rounded-t-lg"
+                className="w-full h-full max-h-52 object-cover rounded-t-lg"
               />
-              <button className="flex justify-center items-center w-full h-10 text-sm font-bold text-zinc-50 bg-red-600 hover:bg-red-500">
+              <button
+                onClick={() => handleDeleteImage(photo)}
+                className="flex justify-center items-center w-full h-10 text-sm font-bold text-zinc-50 bg-red-600 hover:bg-red-500"
+              >
                 Excluir
               </button>
             </div>
