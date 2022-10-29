@@ -4,6 +4,7 @@ import { FiMail, FiMapPin, FiPhone, FiEdit } from 'react-icons/fi'
 import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
+
 interface User {
   _id: string
   name: string
@@ -17,14 +18,7 @@ interface User {
     zip: string
     coutry: string
   }
-  photos: {
-    [x: string]: any
-    0: string
-    1: string
-    2: string
-    3: string
-    4: string
-  }
+  photos: string[]
   photos_url: {
     [x: string]: any
     0: string
@@ -45,7 +39,6 @@ const Settings: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [openChangeImage, setOpenChangeImage] = useState(false)
   const [openChangeInfo, setOpenChangeInfo] = useState(false)
-  const [selectphoto, setSelectPhoto] = useState(null)
 
   const user = useAuth().user as UserAuth
   const token = localStorage.getItem('@AgendaBarber:token')
@@ -159,6 +152,75 @@ const Settings: React.FC = () => {
     const files = formData.getAll('photos') as File[]
     const data = Object.fromEntries(formData)
 
+    // check if barber don't have photos
+    if (barber.photos) {
+      if (barber.photos.length === 0) {
+        console.log('não tem fotos')
+      } else {
+        if (barber.photos[4]) {
+          addToast({
+            type: 'error',
+            title:
+              'Você já tem 5 fotos na galeria remova uma para adicionar outra',
+          })
+          return
+        } else {
+          // check if barber already have 4 photos
+          if (barber.photos[3]) {
+            // check if user send 5 photos
+            if (files.length > 1) {
+              addToast({
+                type: 'error',
+                title:
+                  'Você tem 4 fotos na galeria você só pode adicionar mais 1',
+              })
+              return
+            }
+          } else {
+            // check if barber already have 3 photos
+            if (barber.photos[2]) {
+              // check if user send 4 photos
+              if (files.length > 2) {
+                addToast({
+                  type: 'error',
+                  title:
+                    'Você tem 3 fotos na galeria você só pode adicionar mais 2',
+                })
+                return
+              }
+            } else {
+              // check if barber already have 2 photos
+              if (barber.photos[1]) {
+                // check if user send 3 photos
+                if (files.length > 3) {
+                  addToast({
+                    type: 'error',
+                    title:
+                      'Você tem 2 fotos na galeria você só pode adicionar mais 3',
+                  })
+                  return
+                }
+              } else {
+                // check if barber already have 1 photos
+                if (barber.photos[0]) {
+                  // check if user send 2 photos
+                  if (files.length > 4) {
+                    addToast({
+                      type: 'error',
+                      title:
+                        'Você tem 1 foto na galeria você só pode adicionar mais 4',
+                    })
+                    return
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    // check if barber already have 5 photos
+
     if (files) {
       const checkimage = files[0].name
 
@@ -178,12 +240,20 @@ const Settings: React.FC = () => {
       }
     }
 
+    const photos = data.photos[0].photos
+
+    const allPhotos = [{ photos: barber.photos?.concat(photos) }]
+
     api
-      .patch(`barbers/${user._id}`, data.photos[0], {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      .patch(
+        `barbers/${user._id}`,
+        barber.photos ? allPhotos[0] : data.photos[0],
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      })
+      )
       .then(() => {
         addToast({
           type: 'success',
@@ -198,18 +268,15 @@ const Settings: React.FC = () => {
       })
     setTimeout(() => {
       getbarber()
-    }, 2000)
+    }, 3000)
   }
 
   // Delete barber photo
   const handleDeleteImage = async (photo: string) => {
-    const data = {
-      image: photo,
-    }
+    const data = [photo]
 
-    api
-      .delete(`barbers/gallery/${user._id}`, {
-        data,
+    await api
+      .patch(`barbers/gallery/${user._id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -596,7 +663,7 @@ const Settings: React.FC = () => {
         <div className="relative py-2 xl:flex-col xl:justify-center xl:items-center w-full">
           <div className="w-full xl:w-[75%] xl:mx-auto px-4">
             <form onSubmit={handleChangerGallery}>
-              <label className="block text-center mb-2 text-sm font-medium text-zinc-900">
+              <label className="block text-center mb-2 text-base font-extrabold text-zinc-900">
                 Coloque suas melhores fotos aqui !
               </label>
               <label className="flex flex-col justify-center items-center w-full h-64  rounded-lg border-2 bg-zinc-900 border-zinc-600 hover:border-zinc-400 hover:bg-zinc-700">
@@ -630,15 +697,38 @@ const Settings: React.FC = () => {
                   multiple={true}
                   className="text-center cursor-pointer mb-8"
                 />
-                <button type="submit" className="text-center cursor-pointer ">
-                  Enviar Fotos
-                </button>
               </label>
+              <button className="flex justify-center items-center w-[50%] min-w-[250px] h-12 p-4 my-2 text-white-100 font-bold text-lg bg-orange-500 rounded-md shadow-sm mx-auto ">
+                Enviar Fotos
+              </button>
             </form>
           </div>
         </div>
       </div>
       <div className="flex flex-wrap justify-center xl:flex-row md:justify-between p-4 mt-4 mb-6 bg-[#FFF] rounded-lg overflow-x-auto">
+        {barber.photos === undefined || barber.photos.length <= 0 ? (
+          <div className="flex flex-col justify-center items-center w-full h-64">
+            <svg
+              className="w-24 h-24 text-zinc-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+              ></path>
+            </svg>
+            <h1 className="text-2xl font-bold text-zinc-900">
+              Nenhuma foto cadastrada
+            </h1>
+          </div>
+        ) : (
+          <></>
+        )}
         {loading ? (
           <div className="flex flex-1 justify-center items-center">
             <svg
@@ -659,9 +749,9 @@ const Settings: React.FC = () => {
             </svg>
           </div>
         ) : (
-          Object.keys(barber.photos_url).map((photo) => (
+          Object.keys(barber.photos_url).map((photo, index) => (
             <div
-              key={photo}
+              key={index}
               className="flex flex-col justify-center items-center w-64 h-64 rounded-lg mb-4 mr-4"
             >
               <img
@@ -670,7 +760,7 @@ const Settings: React.FC = () => {
                 className="w-full h-full max-h-52 object-cover rounded-t-lg"
               />
               <button
-                onClick={() => handleDeleteImage(photo)}
+                onClick={() => handleDeleteImage(barber.photos[photo])}
                 className="flex justify-center items-center w-full h-10 text-sm font-bold text-zinc-50 bg-red-600 hover:bg-red-500"
               >
                 Excluir
@@ -795,17 +885,6 @@ const Settings: React.FC = () => {
                         name="phone"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Telefone"
-                      />
-                    </div>
-                    <div className="col-span-4">
-                      <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        name="email"
-                        className="border text-sm font-medium rounded-lg  block w-full p-3 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
-                        placeholder="Email"
                       />
                     </div>
                     <div className="col-span-3">

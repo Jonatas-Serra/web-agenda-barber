@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../hooks/Auth'
+import api from '../services/api'
 
+interface UserAuth {
+  _id: string
+}
 interface User {
   name: string
   email: string
-  image: string
+  image_url: string
 }
 
 interface HeaderDashProps {
@@ -14,14 +18,27 @@ interface HeaderDashProps {
 }
 
 const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
-  const [Title, setTitle] = React.useState('Resumo')
-  const [IsOpen, setIsOpen] = React.useState(false)
-  const { user } = useAuth() as { user: User }
+  const [Title, setTitle] = useState('Resumo')
+  const [IsOpen, setIsOpen] = useState(false)
+  const [barber, setBarber] = useState<User>({} as User)
   const { signOut } = useAuth()
+  const user = useAuth().user as UserAuth
+  const token = localStorage.getItem('@AgendaBarber:token')
 
   const location = useLocation()
 
+  const getbarber = async () => {
+    const response = await api.get(`barbers/${user._id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    setBarber(response.data)
+  }
+
   useEffect(() => {
+    getbarber()
     switch (location.pathname) {
       case '/Dash/resume':
         setTitle('Resumo')
@@ -109,10 +126,10 @@ const HeaderDash: React.FC<HeaderDashProps> = ({ handleMenu, isHidden }) => {
               >
                 <img
                   className="mr-2 w-12 h-12 rounded-full"
-                  src={user?.image}
+                  src={barber?.image_url}
                   alt="user photo"
                 ></img>
-                {user?.name}
+                {barber?.name}
                 <svg
                   className="w-4 h-4 mx-1.5"
                   fill="currentColor"
