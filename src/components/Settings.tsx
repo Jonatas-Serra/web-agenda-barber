@@ -274,8 +274,7 @@ const Settings: React.FC = () => {
   // Delete barber photo
   const handleDeleteImage = async (photo: string) => {
     const data = [photo]
-
-    await api
+    api
       .patch(`barbers/gallery/${user._id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -293,6 +292,14 @@ const Settings: React.FC = () => {
           title: 'Erro ao deletar imagem, tente novamente!',
         })
       })
+
+    const file = photo
+    await api.post(`barbers/gallery/${file}`, file, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
     setTimeout(() => {
       getbarber()
     }, 1000)
@@ -760,7 +767,9 @@ const Settings: React.FC = () => {
                 className="w-full h-full max-h-52 object-cover rounded-t-lg"
               />
               <button
-                onClick={() => handleDeleteImage(barber.photos[photo])}
+                onClick={() => {
+                  handleDeleteImage(barber.photos[photo])
+                }}
                 className="flex justify-center items-center w-full h-10 text-sm font-bold text-zinc-50 bg-red-600 hover:bg-red-500"
               >
                 Excluir
