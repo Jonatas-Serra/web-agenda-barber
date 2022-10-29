@@ -56,7 +56,6 @@ export function SignUp() {
 
           formRef.current?.setErrors(errors)
         }
-        console.log(err)
 
         addToast({
           type: 'error',
