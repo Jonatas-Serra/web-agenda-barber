@@ -66,7 +66,6 @@ export function Products() {
       const checkimage = file.name
 
       if (checkimage === '') {
-        console.log('nao faz nada')
         data.image = ''
       } else {
         const image = file as File
