@@ -302,7 +302,7 @@ const Settings: React.FC = () => {
 
     setTimeout(() => {
       getbarber()
-    }, 1000)
+    }, 3000)
   }
 
   React.useEffect(() => {
