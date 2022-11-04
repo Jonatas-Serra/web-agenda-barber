@@ -274,7 +274,7 @@ const Settings: React.FC = () => {
   // Delete barber photo
   const handleDeleteImage = async (photo: string) => {
     const data = [photo]
-    api
+    await api
       .patch(`barbers/gallery/${user._id}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
