@@ -211,7 +211,7 @@ export function Services() {
           )}
           {modalIsOpenDelete && (
             <div className="relative h-full w-[100px] md:w-full">
-              <div className="overflow-y-auto overflow-x-hidden fixed top-[5%] md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+              <div className="overflow-y-auto overflow-x-hidden fixed top-[15%] left-6 md:top-[40%] md:left-[40%] z-50  w-full md:h-full">
                 <div className="relative p-4 w-full max-w-md h-full md:h-auto">
                   <div className="relative rounded-lg shadow bg-zinc-700">
                     <button

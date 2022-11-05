@@ -16,12 +16,13 @@ interface Products {
   price: number
   image: string
 
-  handlemodalIsOpenDelete: (id: string) => void
   handleSelectProduct: (product: Products) => void
+  handlemodalIsOpenDelete: (id: string) => void
+  handlemodalIsOpenEdit: (id: string) => void
 }
 
 interface User {
-  id: string
+  _id: string
 }
 
 export function Products() {
@@ -39,6 +40,7 @@ export function Products() {
 
   const [modalIsOpenDelete, setModalIsOpenDelete] = useState(false)
   const [modalIsOpenCreate, setModalIsOpenCreate] = useState(false)
+  const [modalIsOpenEdit, setModalIsOpenEdit] = useState(false)
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
@@ -105,7 +107,62 @@ export function Products() {
     setLoading(true)
     setTimeout(() => {
       getProducts()
-    }, 2000)
+    }, 3000)
+  }
+
+  // Edit product
+  const handleSubmitEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const file = formData.get('image') as File
+    const data = Object.fromEntries(formData)
+
+    if (file) {
+      const checkimage = file.name
+
+      if (checkimage === '') {
+        data.image = ''
+      } else {
+        const image = file as File
+        const dataImage = new FormData()
+        dataImage.append('file', image)
+
+        const response = await api.post('products/upload', dataImage, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+
+        data.image = response.data.url
+      }
+    }
+
+    api
+      .patch(`products/${selectedProduct._id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        addToast({
+          type: 'success',
+          title: `${data.name} editado com sucesso!`,
+        })
+      })
+      .catch(() => {
+        addToast({
+          type: 'error',
+          title: 'Erro ao editar produto',
+        })
+      })
+
+    setModalIsOpenEdit(false)
+    setLoading(true)
+    setTimeout(() => {
+      getProducts()
+    }, 3000)
   }
 
   // Delete product
@@ -137,6 +194,11 @@ export function Products() {
   // Open the modal to delete a product
   const handlemodalIsOpenDelete = () => {
     setModalIsOpenDelete(true)
+  }
+
+  // Open the modal to edit a product
+  const handlemodalIsOpenEdit = () => {
+    setModalIsOpenEdit(true)
   }
 
   // Select a product to be deleted or edited
@@ -196,15 +258,17 @@ export function Products() {
               name={product.name}
               price={product.price}
               image={product.image}
-              handlemodalIsOpenDelete={handlemodalIsOpenDelete}
+              description={product.description}
               handleSelectProduct={handleSelectProduct}
+              handlemodalIsOpenDelete={handlemodalIsOpenDelete}
+              handlemodalIsOpenEdit={handlemodalIsOpenEdit}
               _id={product._id}
             />
           ))
         )}
         {modalIsOpenDelete && (
           <div className="relative h-full w-[100px] md:w-full">
-            <div className="overflow-y-auto overflow-x-hidden fixed top-[5%] md:top-[20%] md:left-[30%] z-50  w-full md:h-full">
+            <div className="overflow-y-auto overflow-x-hidden fixed top-[15%] left-6 md:top-[40%] md:left-[40%] z-50  w-full md:h-full">
               <div className="relative p-4 w-full max-w-md h-full md:h-auto">
                 <div className="relative rounded-lg shadow bg-zinc-700">
                   <button
@@ -307,7 +371,7 @@ export function Products() {
                         <input
                           type="text"
                           name="barber"
-                          value={user.id}
+                          value={user._id}
                           className="hidden"
                         />
                         <input
@@ -372,7 +436,131 @@ export function Products() {
                       <button
                         onClick={() => {
                           setModalIsOpenCreate(false)
-                          setSelectedProduct(null)
+                          setSelectedProduct({} as Products)
+                        }}
+                        className="text-white bg-red-500 hover:bg-red-600 text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {modalIsOpenEdit && (
+          <div className="relative h-full w-[100px] md:w-full">
+            <div className="overflow-y-auto overflow-x-hidden fixed top-[10%] left-[0%] md:top-[15%] md:left-[35%] z-50  w-full md:h-full">
+              <div className="relative p-4 w-full max-w-lg h-full md:h-auto">
+                <div className="relative rounded-lg shadow bg-zinc-900">
+                  <div className="flex justify-between items-center p-5 rounded-t border-b border-zinc-700">
+                    <h3 className="text-xl font-medium text-zinc-50">
+                      Editar serviço
+                    </h3>
+                    <button
+                      onClick={() => {
+                        setModalIsOpenEdit(false)
+                        setSelectedProduct({} as Products)
+                      }}
+                      type="button"
+                      className="text-zinc-400 bg-transparent rounded-lg text-sm p-1.5 ml-auto inline-flex items-center hover:bg-red-500 hover:text-zinc-50"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                  <form onSubmit={handleSubmitEdit}>
+                    <div className="grid gap-6 mb-0 md:mb-6 md:grid-cols-2 p-4">
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-zinc-50">
+                          Nome do produto
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          className="border text-sm font-medium rounded-lg  block w-full p-3 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                          defaultValue={selectedProduct.name}
+                        />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-zinc-300">
+                          Preço
+                        </label>
+                        <div className="flex">
+                          <span className="inline-flex items-center px-3 text-zinc-50 font-bold text-base rounded-l-md border border-r-0 bg-zinc-700 border-zinc-600">
+                            R$
+                          </span>
+                          <CurrencyInput
+                            prefix="R$"
+                            name="price"
+                            min={0}
+                            type="number"
+                            pattern="^\d+(?:\.\d{1,2})?$"
+                            className="bg-zinc-700 border-zinc-600 text-zinc-50 border font-bold text-base rounded-r-lg block w-full p-2.5"
+                            defaultValue={selectedProduct.price}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-span-2">
+                        <label className="block  mb-2 text-sm font-medium text-zinc-900 dark:text-zinc-300">
+                          Descrição do produto
+                        </label>
+                        <textarea
+                          name="description"
+                          className="h-[140px] border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                          defaultValue={
+                            selectedProduct.description
+                              ? selectedProduct.description
+                              : ''
+                          }
+                        />
+                      </div>
+                      <div className=" border-t border-zinc-700 col-span-2">
+                        <label className="block mb-2 text-sm font-medium text-zinc-50">
+                          Imagem do Produto
+                        </label>
+                        <div className="flex flex-col items-center">
+                          <img
+                            src={selectedProduct.image}
+                            alt="Imagem do Produto"
+                            className="w-24 h-24 rounded-lg object-cover mb-4"
+                          />
+                          <input
+                            id="image"
+                            name="image"
+                            type="file"
+                            className="block w-full text-sm rounded-lg border cursor-pointer text-zinc-50 focus:outline-none bg-zinc-700 border-zinc-600 placeholder-zinc-50"
+                            aria-describedby="file_input_help"
+                          />
+                          <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+                            JPEG, PNG ou JPG.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-end p-2 md:p-6 space-x-2 rounded-b border-t border-zinc-700">
+                      <button
+                        type="submit"
+                        className="text-white bg-orange-400 hover:bg-orange-500 hover:transition-shadow text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                      >
+                        Salvar
+                      </button>
+                      <button
+                        onClick={() => {
+                          setModalIsOpenEdit(false)
+                          setSelectedProduct({} as Products)
                         }}
                         className="text-white bg-red-500 hover:bg-red-600 text-zinc-50 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                       >
