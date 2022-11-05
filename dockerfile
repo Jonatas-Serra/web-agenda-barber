@@ -1,4 +1,4 @@
-FROM node:18
+FROM node:18-alpine
 
 # Create app directory
 WORKDIR /usr/src/web
@@ -11,6 +11,6 @@ RUN npm install --global npm@8.19.2 && npm install -g typescript && npm install
 # Bundle app source
 COPY . .
 
-RUN npm run build
-
 EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
