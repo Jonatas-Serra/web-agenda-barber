@@ -11,6 +11,6 @@ RUN npm install --global npm@8.19.2 && npm install -g typescript && npm install
 # Bundle app source
 COPY . .
 
-RUN npm run dev
+RUN npm run build
 
 EXPOSE 5173
