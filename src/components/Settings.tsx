@@ -6,7 +6,6 @@ import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
 
 interface User {
-  _id: string
   name: string
   email: string
   image_url: string

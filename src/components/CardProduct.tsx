@@ -5,18 +5,22 @@ interface CardProductProps {
   _id: string
   image: string
   name: string
+  description: string
   price: number
-  handlemodalIsOpenDelete: (id: string) => void
   handleSelectProduct: (product: CardProductProps) => void
+  handlemodalIsOpenDelete: (id: string) => void
+  handlemodalIsOpenEdit: (id: string) => void
 }
 
 const CardProduct: React.FC<CardProductProps> = ({
   _id,
   image,
   name,
+  description,
   price,
-  handlemodalIsOpenDelete,
   handleSelectProduct,
+  handlemodalIsOpenDelete,
+  handlemodalIsOpenEdit,
 }) => {
   return (
     <div className="w-full max-h-[24rem] sm:max-w-[14.75rem] lg:max-w-[14.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
@@ -45,12 +49,24 @@ const CardProduct: React.FC<CardProductProps> = ({
             </span>
           </div>
           <div className="flex justify-center items-center">
-            <a
-              href="#"
+            <button
+              onClick={() => {
+                handlemodalIsOpenEdit(_id)
+                handleSelectProduct({
+                  _id,
+                  image,
+                  name,
+                  price,
+                  description,
+                  handlemodalIsOpenDelete,
+                  handlemodalIsOpenEdit,
+                  handleSelectProduct,
+                })
+              }}
               className="text-white-100 bg-orange-500 font-bold rounded-lg text-md px-4 py-2.5 text-center "
             >
               Editar
-            </a>
+            </button>
             <button
               onClick={() => {
                 handlemodalIsOpenDelete(_id)
@@ -59,7 +75,9 @@ const CardProduct: React.FC<CardProductProps> = ({
                   image,
                   name,
                   price,
+                  description,
                   handlemodalIsOpenDelete,
+                  handlemodalIsOpenEdit,
                   handleSelectProduct,
                 })
               }}
