@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import CardProduct from './CardProduct'
 import CurrencyInput from 'react-currency-masked-input'
@@ -43,15 +43,25 @@ export function Products() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
   // Get products
-  const getProducts = async () => {
-    const response = await api.get('products', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    setProducts(response.data)
-    setLoading(false)
-  }
+  const getProducts = useCallback(async () => {
+    try {
+      const response = await api.get('/products', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      setProducts(response.data)
+      setLoading(false)
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao carregar produtos',
+        description:
+          'Ocorreu um erro ao carregar os produtos, tente novamente.',
+      })
+    }
+  }, [addToast, token])
 
   // Create product
   const handleCreateProduct = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -155,6 +165,10 @@ export function Products() {
   // Inicialize the products
   useEffect(() => {
     getProducts()
+  }, [])
+
+  // Update the products when the page changes width
+  useEffect(() => {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [handleResize, width])
