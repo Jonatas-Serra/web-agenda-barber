@@ -36,8 +36,8 @@ export function Resume() {
       signOut()
       addToast({
         type: 'error',
-        title: 'Erro ao autenticar',
-        description: 'Faça login novamente',
+        title: 'Usuario não autenticado',
+        description: 'Faça login para continuar',
       })
     } else {
       api.post('/auth/check', { token }).catch(() => {
