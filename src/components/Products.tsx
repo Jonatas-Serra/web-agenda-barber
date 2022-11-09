@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import CardProduct from './CardProduct'
 import CurrencyInput from 'react-currency-masked-input'
@@ -45,25 +45,16 @@ export function Products() {
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
 
   // Get products
-  const getProducts = useCallback(async () => {
-    try {
-      const response = await api.get('/products', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+  const getProducts = async () => {
+    const response = await api.get('/products', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
-      setProducts(response.data)
-      setLoading(false)
-    } catch (err) {
-      addToast({
-        type: 'error',
-        title: 'Erro ao carregar produtos',
-        description:
-          'Ocorreu um erro ao carregar os produtos, tente novamente.',
-      })
-    }
-  }, [addToast, token])
+    setProducts(response.data)
+    setLoading(false)
+  }
 
   // Create product
   const handleCreateProduct = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -133,7 +124,7 @@ export function Products() {
       const checkimage = file.name
 
       if (checkimage === '') {
-        data.image = ''
+        delete data.image
       } else {
         const image = file as File
         const dataImage = new FormData()
@@ -147,6 +138,22 @@ export function Products() {
 
         data.image = response.data.url
       }
+    }
+
+    // check if the filds are empty or not to update
+
+    const { name, description, price } = data
+
+    if (name === '') {
+      delete data.name
+    }
+
+    if (description === '') {
+      delete data.description
+    }
+
+    if (price === '') {
+      delete data.price
     }
 
     api
@@ -172,7 +179,7 @@ export function Products() {
     setLoading(true)
     setTimeout(() => {
       getProducts()
-    }, 3000)
+    }, 2000)
   }
 
   // Delete product
@@ -470,7 +477,7 @@ export function Products() {
                 <div className="relative rounded-lg shadow bg-zinc-900">
                   <div className="flex justify-between items-center p-5 rounded-t border-b border-zinc-700">
                     <h3 className="text-xl font-medium text-zinc-50">
-                      Editar serviço
+                      Editar produto
                     </h3>
                     <button
                       onClick={() => {

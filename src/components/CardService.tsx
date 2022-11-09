@@ -9,8 +9,9 @@ interface CardServiceProps {
   price: number
   recurrence: number
   image: string
-  handlemodalIsOpenDelete: (id: string) => void
   handleSelectService: (service: CardServiceProps) => void
+  handlemodalIsOpenDelete: (id: string) => void
+  handlemodalIsOpenEdit: (id: string) => void
 }
 
 const CardService: React.FC<CardServiceProps> = ({
@@ -18,8 +19,12 @@ const CardService: React.FC<CardServiceProps> = ({
   image,
   name,
   price,
-  handlemodalIsOpenDelete,
+  duration,
+  recurrence,
+  description,
   handleSelectService,
+  handlemodalIsOpenDelete,
+  handlemodalIsOpenEdit,
 }) => {
   return (
     <div className="w-full max-h-[24rem] sm:max-w-[14.75rem] lg:max-w-[14.75rem] bg-[#fff] rounded-lg shadow-md mr-6 mb-4">
@@ -48,12 +53,26 @@ const CardService: React.FC<CardServiceProps> = ({
             </span>
           </div>
           <div className="flex justify-center items-center">
-            <a
-              href="#"
+            <button
+              onClick={() => {
+                handlemodalIsOpenEdit(_id)
+                handleSelectService({
+                  _id,
+                  image,
+                  name,
+                  price,
+                  description,
+                  duration,
+                  recurrence,
+                  handlemodalIsOpenDelete,
+                  handlemodalIsOpenEdit,
+                  handleSelectService,
+                })
+              }}
               className="text-white-100 bg-orange-500 font-bold rounded-lg text-md px-4 py-2.5 text-center "
             >
               Editar
-            </a>
+            </button>
             <button
               onClick={() => {
                 handlemodalIsOpenDelete(_id)
@@ -62,11 +81,12 @@ const CardService: React.FC<CardServiceProps> = ({
                   image,
                   name,
                   price,
+                  description,
+                  duration,
+                  recurrence,
                   handlemodalIsOpenDelete,
+                  handlemodalIsOpenEdit,
                   handleSelectService,
-                  description: '',
-                  duration: 0,
-                  recurrence: 0,
                 })
               }}
               className="text-white-100 bg-red-600 font-bold rounded-lg text-md px-4 py-2.5 text-center ml-2"

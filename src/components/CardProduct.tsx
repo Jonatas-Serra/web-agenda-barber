@@ -36,11 +36,11 @@ const CardProduct: React.FC<CardProductProps> = ({
         </a>
       </div>
       <div className="px-5 pb-3">
-        <Link to={`/${_id}`}>
-          <h5 className="text-lg leading-5 h-11 overflow-hidden font-semibold tracking-tight text-gray-900 mb-4">
+        <div>
+          <h5 className="text-lg leading-5 h-10 overflow-hidden font-semibold tracking-tight text-gray-900 mb-4">
             {name}
           </h5>
-        </Link>
+        </div>
 
         <div className="flex-col justify-center items-center">
           <div className="flex justify-center mb-1">
