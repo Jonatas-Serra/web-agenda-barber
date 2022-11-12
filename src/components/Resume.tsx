@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback } from 'react'
 import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
@@ -51,10 +51,9 @@ export function Resume() {
     }
   }
 
-  useEffect(() => {
+  useCallback(() => {
     verifyToken()
   }, [])
-
   return (
     <div className="w-full grid grid-cols-12 gap-2 px-4 pt-2">
       {/* COLUNA 1 */}
