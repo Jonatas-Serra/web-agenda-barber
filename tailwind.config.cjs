@@ -2,14 +2,13 @@
 module.exports = {
   content: [
     './src/**/*.tsx',
-    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     extend: {
       animation: {
-        'slidebottom': 'slidebottom 1.2s ease-in-out both',
-        'slideleft': 'slideleft 1.2s ease-in-out both',
-
+        slidebottom: 'slidebottom 1.2s ease-in-out both',
+        slideleft: 'slideleft 1.2s ease-in-out both',
       },
       keyframes: {
         slidebottom: {
@@ -19,7 +18,7 @@ module.exports = {
         slideleft: {
           '0%': { transform: 'translatex(-550px)' },
           '100%': { transform: 'translatex(0px)' },
-        }
+        },
       },
       backgroundImage: {
         hero: 'url(/src/assets/back.jpg)',
@@ -42,11 +41,9 @@ module.exports = {
         },
         white: {
           100: '#f8fafb',
-      }
+        },
+      },
     },
+    plugins: [require('flowbite/plugin')],
   },
-  plugins: [
-    require('flowbite/plugin'),
-  ],
-}
 }

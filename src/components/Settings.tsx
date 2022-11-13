@@ -4,6 +4,7 @@ import { FiMail, FiMapPin, FiPhone, FiEdit } from 'react-icons/fi'
 import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
+import TimeInput from './TimeInput'
 
 interface User {
   name: string
@@ -42,6 +43,15 @@ const Settings: React.FC = () => {
   const user = useAuth().user as UserAuth
   const token = localStorage.getItem('@AgendaBarber:token')
   const { addToast } = useToast()
+
+  // Workdays
+  const [sunday, setSunday] = useState(false)
+  const [monday, setMonday] = useState(false)
+  const [tuesday, setTuesday] = useState(false)
+  const [wednesday, setWednesday] = useState(false)
+  const [thursday, setThursday] = useState(false)
+  const [friday, setFriday] = useState(false)
+  const [saturday, setSaturday] = useState(false)
 
   // Get infomatios of barber
   const getbarber = async () => {
@@ -311,7 +321,7 @@ const Settings: React.FC = () => {
   return (
     <div className="flex flex-col px-4 ">
       <section className="flex flex-col xl:flex-row w-full justify-around">
-        {/* Informaçoes da Barbearia */}
+        {/* Information about barber shop */}
         <div className="flex flex-col w-full mr-2">
           <h1 className="text-3xl font-bold text-zinc-900 mt-2">
             Informações da barbearia
@@ -398,56 +408,72 @@ const Settings: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* Horario de funcionamento */}
+        {/* Schedules of working */}
         <div className="flex flex-col w-full ml-2">
           <h1 className="text-3xl font-bold text-zinc-900 mt-2">
             Horario de funcionamento
           </h1>
           <div className="flex flex-col justify-center md:flex-row md:justify-between p-4 mt-4 bg-[#FFF] rounded-lg  overflow-x-auto">
-            {/* Horarios */}
+            {/* Schedules */}
             <div className="flex-col m-auto">
+              {/* sunday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
-                    value="0"
-                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500 "
+                    checked={sunday}
+                    onChange={() => {
+                      setSunday(!sunday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Domingo
                   </label>
                 </div>
+
                 <div className="flex items-center ml-4">
-                  <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
-                      placeholder="00:00"
-                    />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
-                      placeholder="00:00"
-                    />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
-                      placeholder="00:00"
-                    />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
-                      placeholder="00:00"
-                    />
-                  </div>
+                  <TimeInput
+                    className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                      sunday ? '' : 'line-through'
+                    }`}
+                    disabled={!sunday}
+                    placeholder="00:00"
+                  />
+                  <TimeInput
+                    className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                      sunday ? '' : 'line-through'
+                    }`}
+                    disabled={!sunday}
+                    placeholder="00:00"
+                  />
+                  <TimeInput
+                    className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                      sunday ? '' : 'line-through'
+                    }`}
+                    disabled={!sunday}
+                    placeholder="00:00"
+                  />
+                  <TimeInput
+                    className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                      sunday ? '' : 'line-through'
+                    }`}
+                    disabled={!sunday}
+                    placeholder="00:00"
+                  />
                 </div>
               </div>
+              {/* monday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={monday}
+                    onChange={() => {
+                      setMonday(!monday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Segunda
@@ -455,35 +481,48 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        monday ? '' : 'line-through'
+                      }`}
+                      disabled={!monday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        monday ? '' : 'line-through'
+                      }`}
+                      disabled={!monday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        monday ? '' : 'line-through'
+                      }`}
+                      disabled={!monday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        monday ? '' : 'line-through'
+                      }`}
+                      disabled={!monday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              {/* tuesday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={tuesday}
+                    onChange={() => {
+                      setTuesday(!tuesday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Terça
@@ -491,35 +530,48 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        tuesday ? '' : 'line-through'
+                      }`}
+                      disabled={!tuesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        tuesday ? '' : 'line-through'
+                      }`}
+                      disabled={!tuesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        tuesday ? '' : 'line-through'
+                      }`}
+                      disabled={!tuesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        tuesday ? '' : 'line-through'
+                      }`}
+                      disabled={!tuesday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              {/* wednesday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={wednesday}
+                    onChange={() => {
+                      setWednesday(!wednesday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Quarta
@@ -527,35 +579,48 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        wednesday ? '' : 'line-through'
+                      }`}
+                      disabled={!wednesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        wednesday ? '' : 'line-through'
+                      }`}
+                      disabled={!wednesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        wednesday ? '' : 'line-through'
+                      }`}
+                      disabled={!wednesday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        wednesday ? '' : 'line-through'
+                      }`}
+                      disabled={!wednesday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              {/* thursday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={thursday}
+                    onChange={() => {
+                      setThursday(!thursday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Quinta
@@ -563,35 +628,48 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        thursday ? '' : 'line-through'
+                      }`}
+                      disabled={!thursday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        thursday ? '' : 'line-through'
+                      }`}
+                      disabled={!thursday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        thursday ? '' : 'line-through'
+                      }`}
+                      disabled={!thursday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        thursday ? '' : 'line-through'
+                      }`}
+                      disabled={!thursday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              {/* friday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={friday}
+                    onChange={() => {
+                      setFriday(!friday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Sexta
@@ -599,35 +677,48 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        friday ? '' : 'line-through'
+                      }`}
+                      disabled={!friday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        friday ? '' : 'line-through'
+                      }`}
+                      disabled={!friday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        friday ? '' : 'line-through'
+                      }`}
+                      disabled={!friday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        friday ? '' : 'line-through'
+                      }`}
+                      disabled={!friday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              {/* saturday */}
               <div className="flex items-center mb-4">
                 <div className="flex items-center h-full w-[5.313rem]">
                   <input
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
+                    checked={saturday}
+                    onChange={() => {
+                      setSaturday(!saturday)
+                    }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
                     Sábado
@@ -635,31 +726,46 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="flex items-center ml-4">
                   <div className="flex">
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm"
+                    <TimeInput
+                      className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        saturday ? '' : 'line-through'
+                      }`}
+                      disabled={!saturday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        saturday ? '' : 'line-through'
+                      }`}
+                      disabled={!saturday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        saturday ? '' : 'line-through'
+                      }`}
+                      disabled={!saturday}
                       placeholder="00:00"
                     />
-                    <input
-                      type="time"
-                      className="rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm ml-2"
+                    <TimeInput
+                      className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
+                        saturday ? '' : 'line-through'
+                      }`}
+                      disabled={!saturday}
                       placeholder="00:00"
                     />
                   </div>
                 </div>
               </div>
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  className="w-1/2 mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 focus:outline-none"
+                >
+                  Salvar
+                </button>
+              </div>
             </div>
-            {/* Horarios */}
           </div>
         </div>
       </section>
