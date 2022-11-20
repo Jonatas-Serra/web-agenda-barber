@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useEffect } from 'react'
 import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
@@ -51,7 +51,7 @@ export function Resume() {
     }
   }
 
-  useCallback(() => {
+  useEffect(() => {
     verifyToken()
   }, [])
   return (
@@ -156,7 +156,7 @@ export function Resume() {
                     <div className="flex-shrink-0">
                       <img
                         className="w-20 h-20 rounded-full"
-                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-10-17_223401472.png"
+                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-11-20_183618750.png"
                         alt="Neil image"
                       />
                     </div>
@@ -229,7 +229,7 @@ export function Resume() {
                     <div className="flex-shrink-0">
                       <img
                         className="w-20 h-20 rounded-full"
-                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-10-17_223438532.png"
+                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-11-20_183655042.png"
                         alt="Neil image"
                       />
                     </div>
@@ -302,7 +302,7 @@ export function Resume() {
                     <div className="flex-shrink-0">
                       <img
                         className="w-20 h-20 rounded-full"
-                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-10-17_225121404.png"
+                        src="https://app-agendabarber2.s3.amazonaws.com/imagem_2022-11-20_183738827.png"
                         alt="Neil image"
                       />
                     </div>

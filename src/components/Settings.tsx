@@ -28,6 +28,60 @@ interface User {
     4: string
   }
   phone: string
+  workdays: {
+    sunday: boolean
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+  }
+  workhours: {
+    [x: string]: any
+    sunday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    monday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    tuesday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    wednesday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    thursday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    friday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    saturday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+  }
 }
 
 interface UserAuth {
@@ -43,15 +97,6 @@ const Settings: React.FC = () => {
   const user = useAuth().user as UserAuth
   const token = localStorage.getItem('@AgendaBarber:token')
   const { addToast } = useToast()
-
-  // Workdays
-  const [sunday, setSunday] = useState(false)
-  const [monday, setMonday] = useState(false)
-  const [tuesday, setTuesday] = useState(false)
-  const [wednesday, setWednesday] = useState(false)
-  const [thursday, setThursday] = useState(false)
-  const [friday, setFriday] = useState(false)
-  const [saturday, setSaturday] = useState(false)
 
   // Get infomatios of barber
   const getbarber = async () => {
@@ -93,6 +138,30 @@ const Settings: React.FC = () => {
       })
       setOpenChangeInfo(false)
       getbarber()
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Erro ao alterar informações',
+      })
+    }
+  }
+
+  // Change workdays and workhours of barber
+  const handleChangeWork = async () => {
+    const data = {
+      workdays: barber.workdays,
+      workhours: barber.workhours,
+    }
+    try {
+      await api.patch(`barbers/${user._id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      addToast({
+        type: 'success',
+        title: 'Informações alteradas com sucesso',
+      })
     } catch (err) {
       addToast({
         type: 'error',
@@ -422,9 +491,15 @@ const Settings: React.FC = () => {
                   <input
                     type="checkbox"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500 "
-                    checked={sunday}
+                    checked={barber.workdays?.sunday}
                     onChange={() => {
-                      setSunday(!sunday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          sunday: !barber.workdays.sunday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -435,30 +510,98 @@ const Settings: React.FC = () => {
                 <div className="flex items-center ml-4">
                   <TimeInput
                     className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                      sunday ? '' : 'line-through'
+                      barber.workdays?.sunday ? '' : 'line-through'
                     }`}
-                    disabled={!sunday}
+                    value={
+                      barber.workdays?.sunday
+                        ? barber.workhours?.sunday?.start
+                        : ''
+                    }
+                    onChange={(e) => {
+                      setBarber({
+                        ...barber,
+                        workhours: {
+                          ...barber.workhours,
+                          sunday: {
+                            ...barber.workhours.sunday,
+                            start: e.target.value,
+                          },
+                        },
+                      })
+                    }}
+                    disabled={!barber.workdays?.sunday}
                     placeholder="00:00"
                   />
                   <TimeInput
                     className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                      sunday ? '' : 'line-through'
+                      barber.workdays?.sunday ? '' : 'line-through'
                     }`}
-                    disabled={!sunday}
+                    value={
+                      barber.workdays?.sunday
+                        ? barber.workhours?.sunday?.breakStart
+                        : ''
+                    }
+                    onChange={(e) => {
+                      setBarber({
+                        ...barber,
+                        workhours: {
+                          ...barber.workhours,
+                          sunday: {
+                            ...barber.workhours.sunday,
+                            breakStart: e.target.value,
+                          },
+                        },
+                      })
+                    }}
+                    disabled={!barber.workdays?.sunday}
                     placeholder="00:00"
                   />
                   <TimeInput
                     className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                      sunday ? '' : 'line-through'
+                      barber.workdays?.sunday ? '' : 'line-through'
                     }`}
-                    disabled={!sunday}
+                    value={
+                      barber.workdays?.sunday
+                        ? barber.workhours?.sunday?.breakEnd
+                        : ''
+                    }
+                    onChange={(e) => {
+                      setBarber({
+                        ...barber,
+                        workhours: {
+                          ...barber.workhours,
+                          sunday: {
+                            ...barber.workhours.sunday,
+                            breakEnd: e.target.value,
+                          },
+                        },
+                      })
+                    }}
+                    disabled={!barber.workdays?.sunday}
                     placeholder="00:00"
                   />
                   <TimeInput
                     className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                      sunday ? '' : 'line-through'
+                      barber.workdays?.sunday ? '' : 'line-through'
                     }`}
-                    disabled={!sunday}
+                    value={
+                      barber.workdays?.sunday
+                        ? barber.workhours?.sunday?.end
+                        : ''
+                    }
+                    onChange={(e) => {
+                      setBarber({
+                        ...barber,
+                        workhours: {
+                          ...barber.workhours,
+                          sunday: {
+                            ...barber.workhours.sunday,
+                            end: e.target.value,
+                          },
+                        },
+                      })
+                    }}
+                    disabled={!barber.workdays?.sunday}
                     placeholder="00:00"
                   />
                 </div>
@@ -470,9 +613,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={monday}
+                    checked={barber.workdays?.monday}
                     onChange={() => {
-                      setMonday(!monday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          monday: !barber.workdays.monday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -483,30 +632,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        monday ? '' : 'line-through'
+                        barber.workdays?.monday ? '' : 'line-through'
                       }`}
-                      disabled={!monday}
+                      value={
+                        barber.workdays?.monday
+                          ? barber.workhours?.monday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            monday: {
+                              ...barber.workhours.monday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.monday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        monday ? '' : 'line-through'
+                        barber.workdays?.monday ? '' : 'line-through'
                       }`}
-                      disabled={!monday}
+                      value={
+                        barber.workdays?.monday
+                          ? barber.workhours?.monday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            monday: {
+                              ...barber.workhours.monday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.monday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        monday ? '' : 'line-through'
+                        barber.workdays?.monday ? '' : 'line-through'
                       }`}
-                      disabled={!monday}
+                      value={
+                        barber.workdays?.monday
+                          ? barber.workhours?.monday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            monday: {
+                              ...barber.workhours.monday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.monday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        monday ? '' : 'line-through'
+                        barber.workdays?.monday ? '' : 'line-through'
                       }`}
-                      disabled={!monday}
+                      value={
+                        barber.workdays?.monday
+                          ? barber.workhours?.monday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            monday: {
+                              ...barber.workhours.monday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.monday}
                       placeholder="00:00"
                     />
                   </div>
@@ -519,9 +736,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={tuesday}
+                    checked={barber.workdays?.tuesday}
                     onChange={() => {
-                      setTuesday(!tuesday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          tuesday: !barber.workdays.tuesday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -532,30 +755,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        tuesday ? '' : 'line-through'
+                        barber.workdays?.tuesday ? '' : 'line-through'
                       }`}
-                      disabled={!tuesday}
+                      value={
+                        barber.workdays?.tuesday
+                          ? barber.workhours?.tuesday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            tuesday: {
+                              ...barber.workhours.tuesday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.tuesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        tuesday ? '' : 'line-through'
+                        barber.workdays?.tuesday ? '' : 'line-through'
                       }`}
-                      disabled={!tuesday}
+                      value={
+                        barber.workdays?.tuesday
+                          ? barber.workhours?.tuesday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            tuesday: {
+                              ...barber.workhours.tuesday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.tuesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        tuesday ? '' : 'line-through'
+                        barber.workdays?.tuesday ? '' : 'line-through'
                       }`}
-                      disabled={!tuesday}
+                      value={
+                        barber.workdays?.tuesday
+                          ? barber.workhours?.tuesday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            tuesday: {
+                              ...barber.workhours.tuesday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.tuesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        tuesday ? '' : 'line-through'
+                        barber.workdays?.tuesday ? '' : 'line-through'
                       }`}
-                      disabled={!tuesday}
+                      value={
+                        barber.workdays?.tuesday
+                          ? barber.workhours?.tuesday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            tuesday: {
+                              ...barber.workhours.tuesday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.tuesday}
                       placeholder="00:00"
                     />
                   </div>
@@ -568,9 +859,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={wednesday}
+                    checked={barber.workdays?.wednesday}
                     onChange={() => {
-                      setWednesday(!wednesday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          wednesday: !barber.workdays.wednesday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -581,30 +878,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        wednesday ? '' : 'line-through'
+                        barber.workdays?.wednesday ? '' : 'line-through'
                       }`}
-                      disabled={!wednesday}
+                      value={
+                        barber.workdays?.wednesday
+                          ? barber.workhours?.wednesday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            wednesday: {
+                              ...barber.workhours.wednesday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.wednesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        wednesday ? '' : 'line-through'
+                        barber.workdays?.wednesday ? '' : 'line-through'
                       }`}
-                      disabled={!wednesday}
+                      value={
+                        barber.workdays?.wednesday
+                          ? barber.workhours?.wednesday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            wednesday: {
+                              ...barber.workhours.wednesday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.wednesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        wednesday ? '' : 'line-through'
+                        barber.workdays?.wednesday ? '' : 'line-through'
                       }`}
-                      disabled={!wednesday}
+                      value={
+                        barber.workdays?.wednesday
+                          ? barber.workhours?.wednesday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            wednesday: {
+                              ...barber.workhours.wednesday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.wednesday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        wednesday ? '' : 'line-through'
+                        barber.workdays?.wednesday ? '' : 'line-through'
                       }`}
-                      disabled={!wednesday}
+                      value={
+                        barber.workdays?.wednesday
+                          ? barber.workhours?.wednesday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            wednesday: {
+                              ...barber.workhours.wednesday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.wednesday}
                       placeholder="00:00"
                     />
                   </div>
@@ -617,9 +982,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={thursday}
+                    checked={barber.workdays?.thursday}
                     onChange={() => {
-                      setThursday(!thursday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          thursday: !barber.workdays.thursday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -630,30 +1001,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        thursday ? '' : 'line-through'
+                        barber.workdays?.thursday ? '' : 'line-through'
                       }`}
-                      disabled={!thursday}
+                      value={
+                        barber.workdays?.thursday
+                          ? barber.workhours?.thursday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            thursday: {
+                              ...barber.workhours.thursday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.thursday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        thursday ? '' : 'line-through'
+                        barber.workdays?.thursday ? '' : 'line-through'
                       }`}
-                      disabled={!thursday}
+                      value={
+                        barber.workdays?.thursday
+                          ? barber.workhours?.thursday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            thursday: {
+                              ...barber.workhours.thursday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.thursday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        thursday ? '' : 'line-through'
+                        barber.workdays?.thursday ? '' : 'line-through'
                       }`}
-                      disabled={!thursday}
+                      value={
+                        barber.workdays?.thursday
+                          ? barber.workhours?.thursday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            thursday: {
+                              ...barber.workhours.thursday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.thursday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        thursday ? '' : 'line-through'
+                        barber.workdays?.thursday ? '' : 'line-through'
                       }`}
-                      disabled={!thursday}
+                      value={
+                        barber.workdays?.thursday
+                          ? barber.workhours?.thursday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            thursday: {
+                              ...barber.workhours.thursday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.thursday}
                       placeholder="00:00"
                     />
                   </div>
@@ -666,9 +1105,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={friday}
+                    checked={barber.workdays?.friday}
                     onChange={() => {
-                      setFriday(!friday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          friday: !barber.workdays.friday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -679,30 +1124,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        friday ? '' : 'line-through'
+                        barber.workdays?.friday ? '' : 'line-through'
                       }`}
-                      disabled={!friday}
+                      value={
+                        barber.workdays?.friday
+                          ? barber.workhours?.friday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            friday: {
+                              ...barber.workhours.friday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.friday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        friday ? '' : 'line-through'
+                        barber.workdays?.friday ? '' : 'line-through'
                       }`}
-                      disabled={!friday}
+                      value={
+                        barber.workdays?.friday
+                          ? barber.workhours?.friday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            friday: {
+                              ...barber.workhours.friday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.friday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        friday ? '' : 'line-through'
+                        barber.workdays?.friday ? '' : 'line-through'
                       }`}
-                      disabled={!friday}
+                      value={
+                        barber.workdays?.friday
+                          ? barber.workhours?.friday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            friday: {
+                              ...barber.workhours.friday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.friday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        friday ? '' : 'line-through'
+                        barber.workdays?.friday ? '' : 'line-through'
                       }`}
-                      disabled={!friday}
+                      value={
+                        barber.workdays?.friday
+                          ? barber.workhours?.friday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            friday: {
+                              ...barber.workhours.friday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.friday}
                       placeholder="00:00"
                     />
                   </div>
@@ -715,9 +1228,15 @@ const Settings: React.FC = () => {
                     type="checkbox"
                     value="0"
                     className="w-4 h-4 rounded border-orange-500 focus:ring-orange-500"
-                    checked={saturday}
+                    checked={barber.workdays?.saturday}
                     onChange={() => {
-                      setSaturday(!saturday)
+                      setBarber({
+                        ...barber,
+                        workdays: {
+                          ...barber.workdays,
+                          saturday: !barber.workdays?.saturday,
+                        },
+                      })
                     }}
                   />
                   <label className="ml-2 text-sm font-bold text-gray-900">
@@ -728,30 +1247,98 @@ const Settings: React.FC = () => {
                   <div className="flex">
                     <TimeInput
                       className={`w-20 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        saturday ? '' : 'line-through'
+                        barber.workdays?.saturday ? '' : 'line-through'
                       }`}
-                      disabled={!saturday}
+                      value={
+                        barber.workdays?.saturday
+                          ? barber.workhours?.saturday?.start
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            saturday: {
+                              ...barber.workhours.saturday,
+                              start: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.saturday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        saturday ? '' : 'line-through'
+                        barber.workdays?.saturday ? '' : 'line-through'
                       }`}
-                      disabled={!saturday}
+                      value={
+                        barber.workdays?.saturday
+                          ? barber.workhours?.saturday?.breakStart
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            saturday: {
+                              ...barber.workhours.saturday,
+                              breakStart: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.saturday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        saturday ? '' : 'line-through'
+                        barber.workdays?.saturday ? '' : 'line-through'
                       }`}
-                      disabled={!saturday}
+                      value={
+                        barber.workdays?.saturday
+                          ? barber.workhours?.saturday?.breakEnd
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            saturday: {
+                              ...barber.workhours.saturday,
+                              breakEnd: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.saturday}
                       placeholder="00:00"
                     />
                     <TimeInput
                       className={`w-20 ml-2 rounded-lg border text-orange-500 bg-gray-800 border-gray-700 focus:border-orange-500 focus:ring-orange-500 focus:ring-opacity-50 focus:ring-1 px-4 py-2  text-sm placeholder:text-orange-500 ${
-                        saturday ? '' : 'line-through'
+                        barber.workdays?.saturday ? '' : 'line-through'
                       }`}
-                      disabled={!saturday}
+                      value={
+                        barber.workdays?.saturday
+                          ? barber.workhours?.saturday?.end
+                          : ''
+                      }
+                      onChange={(e) => {
+                        setBarber({
+                          ...barber,
+                          workhours: {
+                            ...barber.workhours,
+                            saturday: {
+                              ...barber.workhours.saturday,
+                              end: e.target.value,
+                            },
+                          },
+                        })
+                      }}
+                      disabled={!barber.workdays?.saturday}
                       placeholder="00:00"
                     />
                   </div>
@@ -759,7 +1346,7 @@ const Settings: React.FC = () => {
               </div>
               <div className="flex justify-center">
                 <button
-                  type="submit"
+                  onClick={handleChangeWork}
                   className="w-1/2 mt-4 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 focus:outline-none"
                 >
                   Salvar
