@@ -1,15 +1,105 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
 
 import CalendarPicker from './CalendarDash/CalendarPicker'
 import { TableAppointment } from './TableAppointments'
+import { useNavigate } from 'react-router-dom'
 
+interface Barber {
+  name: string
+  email: string
+  image_url: string
+  address: {
+    street: string
+    number: string
+    neighborhood: string
+    city: string
+    state: string
+    zip: string
+    coutry: string
+  }
+  photos: string[]
+  photos_url: {
+    [x: string]: any
+    0: string
+    1: string
+    2: string
+    3: string
+    4: string
+  }
+  phone: string
+  workdays: {
+    sunday: boolean
+    monday: boolean
+    tuesday: boolean
+    wednesday: boolean
+    thursday: boolean
+    friday: boolean
+    saturday: boolean
+  }
+  workhours: {
+    [x: string]: any
+    sunday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    monday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    tuesday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    wednesday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    thursday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    friday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+    saturday: {
+      start: string
+      breakStart: string
+      breakEnd: string
+      end: string
+    }
+  }
+  geoLocation: {
+    type: string
+    coordinates: number[]
+  }
+}
+interface UserAuth {
+  _id: string
+}
 export function Resume() {
   const { signOut } = useAuth()
   const { addToast } = useToast()
   const token = localStorage.getItem('@AgendaBarber:token')
+  const user = useAuth().user as UserAuth
+  const [barber, setBarber] = useState<Barber>({} as Barber)
+  const [modalCompleteProfile, setModalCompleteProfile] = useState(false)
+  const navigate = useNavigate()
 
   const verifyToken = () => {
     if (!token) {
@@ -31,9 +121,35 @@ export function Resume() {
     }
   }
 
+  const verifyProfile = () => {
+    if (!barber.address) {
+      setModalCompleteProfile(true)
+    }
+    if (!barber.photos) {
+      setModalCompleteProfile(true)
+    } else {
+      setModalCompleteProfile(false)
+    }
+  }
+
+  const getbarber = async () => {
+    const response = await api.get(`barbers/${user._id}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    setBarber(response.data)
+  }
+
   useEffect(() => {
     verifyToken()
+    getbarber()
   }, [])
+
+  useEffect(() => {
+    verifyProfile()
+  }, [barber])
   return (
     <div className="w-full grid grid-cols-12 gap-2 px-4 pt-2">
       {/* COLUMN 1 */}
@@ -354,6 +470,71 @@ export function Resume() {
           </div>
         </div>
       </div>
+      {modalCompleteProfile && (
+        <div className="w-[80%] h-[50%] md:left-56 md:w-[60%] md:h-[50%] xl:left-0 xl:w-[40%] xl:h-[40%] absolute inset-0 z-10 flex items-center justify-center bg-[#FFFFFF] m-auto  shadow-2xl rounded-xl">
+          <div className="bg-white rounded-lg p-14">
+            <div className="flex flex-col items-center">
+              <div className="flex items-center justify-center w-16 h-16 rounded-full bg-red-200">
+                <svg
+                  className="w-8 h-8 text-red-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+              </div>
+              <div className="mt-3 text-center sm:mt-5">
+                <h3
+                  className="text-lg leading-6 font-bold text-gray-900"
+                  id="modal-title"
+                >
+                  Complete seu perfil !
+                </h3>
+                <div className="mt-4">
+                  <ul>
+                    <li className="text-sm font-bold text-gray-900 list-disc mb-4">
+                      <p>
+                        Adicione as informações de sua barbearia para que os
+                        clientes possam te encontrar.
+                      </p>
+                    </li>
+                    <li className="text-sm font-bold text-gray-900 list-disc">
+                      <p>Adicione fotos de sua barbearia.</p>
+                    </li>
+                  </ul>
+                  <p className="text-base font-bold leading-5 text-gray-900 mt-6">
+                    Se destaque entre os demais, complete seu perfil e aumente
+                    sua chance de ser notado.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 sm:mt-6">
+              <span className="flex w-full rounded-md shadow-sm">
+                <button
+                  type="button"
+                  className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-orange-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-orange-400 focus:outline-none focus:border-orange-700 focus:shadow-outline-orange transition ease-in-out duration-150 sm:text-sm sm:leading-5"
+                  onClick={() => {
+                    navigate('/Dash/settings')
+                  }}
+                >
+                  Completar agora
+                </button>
+                <button className="ml-2 inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red transition ease-in-out duration-150 sm:text-sm sm:leading-5:">
+                  Deixar para depois
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
