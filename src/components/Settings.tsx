@@ -14,6 +14,7 @@ interface User {
   address: {
     street: string
     number: string
+    neighborhood: string
     city: string
     state: string
     zip: string
@@ -117,7 +118,7 @@ const Settings: React.FC = () => {
 
   // Define the location
   const handleLocation = async () => {
-    const address = `${barber.address.street}, ${barber.address.number} - ${barber.address.city} - ${barber.address.state} - ${barber.address.coutry}`
+    const address = `${barber.address.street}, ${barber.address.number} - ${barber.address.neighborhood} - ${barber.address.city} - ${barber.address.state} - ${barber.address.coutry}`
     const getGeo = await api.get(
       `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCBxGYRgV85Tq5ckh-I_dnr6MleP3KNIRM`,
     )
@@ -487,7 +488,8 @@ const Settings: React.FC = () => {
                       {barber.address?.street}, {barber.address?.number}
                     </p>
                     <p className="text-zinc-900 font-semibold text-sm">
-                      {barber.address?.city} - {barber.address?.state}
+                      {barber.address?.neighborhood}, {barber.address?.city} -{' '}
+                      {barber.address?.state}
                     </p>
                     <p className="text-zinc-900 font-semibold text-sm">
                       {barber.address?.zip}
@@ -1625,6 +1627,10 @@ const Settings: React.FC = () => {
                         name="name"
                         className="border text-sm font-medium rounded-lg  block w-full p-3 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Nome da barbearia"
+                        defaultValue={barber.name}
+                        onChange={(e) =>
+                          setBarber({ ...barber, name: e.target.value })
+                        }
                       />
                     </div>
                     <div className="col-span-2">
@@ -1636,6 +1642,10 @@ const Settings: React.FC = () => {
                         name="phone"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Telefone"
+                        defaultValue={barber.phone}
+                        onChange={(e) =>
+                          setBarber({ ...barber, phone: e.target.value })
+                        }
                       />
                     </div>
                     <div className="col-span-3">
@@ -1647,6 +1657,16 @@ const Settings: React.FC = () => {
                         name="address.street"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Rua"
+                        defaultValue={barber.address.street}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              street: e.target.value,
+                            },
+                          })
+                        }
                       />
                     </div>
                     <div className="col-span-1">
@@ -1658,6 +1678,34 @@ const Settings: React.FC = () => {
                         name="address.number"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Número"
+                        defaultValue={barber.address.number}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              number: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="col-span-3">
+                      <input
+                        type="text"
+                        name="address.neighborhood"
+                        className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
+                        placeholder="Bairro"
+                        defaultValue={barber.address.neighborhood}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              neighborhood: e.target.value,
+                            },
+                          })
+                        }
                       />
                     </div>
                     <div className="col-span-2">
@@ -1666,26 +1714,66 @@ const Settings: React.FC = () => {
                         name="address.city"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50 mb-6"
                         placeholder="Cidade"
+                        defaultValue={barber.address.city}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              city: e.target.value,
+                            },
+                          })
+                        }
                       />
                       <input
                         type="text"
                         name="address.state"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="Estado"
+                        defaultValue={barber.address.state}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              state: e.target.value,
+                            },
+                          })
+                        }
                       />
                     </div>
                     <div className="col-span-2">
                       <input
                         type="text"
-                        name="address.zipcode"
+                        name="address.zip"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50 mb-6"
                         placeholder="CEP"
+                        defaultValue={barber.address.zip}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              zip: e.target.value,
+                            },
+                          })
+                        }
                       />
                       <input
                         type="text"
                         name="address.coutry"
                         className="border text-sm font-medium rounded-lg  block w-full p-2.5 bg-zinc-700 border-zinc-600 placeholder-zinc-400 text-zinc-50"
                         placeholder="País"
+                        defaultValue={barber.address.coutry}
+                        onChange={(e) =>
+                          setBarber({
+                            ...barber,
+                            address: {
+                              ...barber.address,
+                              coutry: e.target.value,
+                            },
+                          })
+                        }
                       />
                     </div>
                   </div>
