@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { DayPicker } from 'react-day-picker'
-import 'react-day-picker/dist/style.css'
 import './day-picker.css'
 
 import ptBR from 'date-fns/locale/pt-BR'

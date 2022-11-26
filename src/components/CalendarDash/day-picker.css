@@ -266,6 +266,7 @@
 
 .rdp-day_today:not(.rdp-day_outside) {
   font-weight: bold;
+  color: #F4972E;
 }
 
 .rdp-day_selected:not([disabled]),

@@ -5,6 +5,7 @@ import api from '../services/api'
 import { useAuth } from '../hooks/Auth'
 import { useToast } from '../hooks/Toast'
 import TimeInput from './TimeInput'
+import MapBarber from './MapBarber'
 
 interface User {
   name: string
@@ -82,6 +83,10 @@ interface User {
       end: string
     }
   }
+  geoLocation: {
+    type: string
+    coordinates: number[]
+  }
 }
 
 interface UserAuth {
@@ -110,6 +115,32 @@ const Settings: React.FC = () => {
     setLoading(false)
   }
 
+  // Define the location
+  const handleLocation = async () => {
+    const address = `${barber.address.street}, ${barber.address.number} - ${barber.address.city} - ${barber.address.state} - ${barber.address.coutry}`
+    const getGeo = await api.get(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyCBxGYRgV85Tq5ckh-I_dnr6MleP3KNIRM`,
+    )
+    const { lat, lng } = getGeo.data.results[0].geometry.location
+
+    await api.patch(
+      `barbers/${user._id}`,
+      {
+        geoLocation: {
+          type: 'Point',
+          coordinates: [lat, lng],
+        },
+      },
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    getbarber()
+  }
+
   // Change info of barber
   const handleChangeInfo = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -126,6 +157,7 @@ const Settings: React.FC = () => {
       checkData.forEach((key) => delete data[key])
     }
 
+    // If have address, get the location
     try {
       await api.patch(`barbers/${user._id}`, data, {
         headers: {
@@ -137,7 +169,10 @@ const Settings: React.FC = () => {
         title: 'Informações alteradas com sucesso',
       })
       setOpenChangeInfo(false)
-      getbarber()
+      setTimeout(() => {
+        handleLocation()
+        getbarber()
+      }, 1000)
     } catch (err) {
       addToast({
         type: 'error',
@@ -476,7 +511,22 @@ const Settings: React.FC = () => {
               </button>
             </div>
           </div>
+          <div className="flex flex-col w-full mr-2">
+            <h1 className="text-3xl font-bold text-zinc-900 mt-2">
+              Localização da barbearia
+            </h1>
+            <div className="flex flex-col justify-center xl:justify-between p-4 mt-4 bg-[#FFF] rounded-lg">
+              <MapBarber
+                information={{
+                  name: barber.name,
+                  lat: barber.geoLocation?.coordinates[0],
+                  lng: barber.geoLocation?.coordinates[1],
+                }}
+              />
+            </div>
+          </div>
         </div>
+
         {/* Schedules of working */}
         <div className="flex flex-col w-full ml-2">
           <h1 className="text-3xl font-bold text-zinc-900 mt-2">

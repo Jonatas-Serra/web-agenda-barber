@@ -6,30 +6,10 @@ import { useToast } from '../hooks/Toast'
 import CalendarPicker from './CalendarDash/CalendarPicker'
 import { TableAppointment } from './TableAppointments'
 
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
-
-ChartJS.register(ArcElement, Tooltip, Legend)
-
 export function Resume() {
   const { signOut } = useAuth()
   const { addToast } = useToast()
   const token = localStorage.getItem('@AgendaBarber:token')
-
-  const data = {
-    labels: ['Confirmados', 'Pendentes', 'Cancelados'],
-    datasets: [
-      {
-        label: '# of Votes',
-        data: [11, 2, 3],
-        backgroundColor: [
-          'rgb(22 163 74)',
-          'rgb(227 161 75)',
-          'rgb(220 38 38)',
-        ],
-      },
-    ],
-  }
 
   const verifyToken = () => {
     if (!token) {
@@ -56,7 +36,7 @@ export function Resume() {
   }, [])
   return (
     <div className="w-full grid grid-cols-12 gap-2 px-4 pt-2">
-      {/* COLUNA 1 */}
+      {/* COLUMN 1 */}
       <div className="col-span-12 lg:col-span-8">
         <div className="grid grid-cols-12 gap-4">
           <div className="col-span-4">
@@ -134,17 +114,16 @@ export function Resume() {
           <div className="col-span-12 mt-4">
             <TableAppointment />
           </div>
-          <div className="col-span-4 mt-2 bg-zinc-50 rounded-lg">
-            <Doughnut data={data} />
-          </div>
         </div>
       </div>
 
-      {/* COLUNA 2 */}
+      {/* COLUMN 2 */}
 
       <div className="mx-0 ml-2 mt-2 col-span-12 xl:col-span-4 lg:mt-0">
-        <CalendarPicker />
-        <div className="mt-8">
+        <div className="w-full xl:mx-auto">
+          <CalendarPicker />
+        </div>
+        <div className="mb-4 mt-8">
           <div className="bg-zinc-50 rounded-lg">
             <div className="flow-root">
               <h2 className="text-center text-2xl font-bold text-zinc-900 mt-2">
